@@ -11,4 +11,5 @@ public class AttendingModel {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     
+    
 }
