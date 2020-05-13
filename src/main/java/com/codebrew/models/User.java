@@ -8,7 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class UserModel {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,10 +20,10 @@ public class UserModel {
     private String password;
     private String username;
 
-    public UserModel() {
+    public User() {
     }
 
-    public UserModel(long id, String firstName, String lastName, String church, int zip) {
+    public User(long id, String firstName, String lastName, String church, int zip) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -71,27 +71,27 @@ public class UserModel {
         this.zip = zip;
     }
 
-    public UserModel id(long id) {
+    public User id(long id) {
         this.id = id;
         return this;
     }
 
-    public UserModel firstName(String firstName) {
+    public User firstName(String firstName) {
         this.firstName = firstName;
         return this;
     }
 
-    public UserModel lastName(String lastName) {
+    public User lastName(String lastName) {
         this.lastName = lastName;
         return this;
     }
 
-    public UserModel church(String church) {
+    public User church(String church) {
         this.church = church;
         return this;
     }
 
-    public UserModel zip(int zip) {
+    public User zip(int zip) {
         this.zip = zip;
         return this;
     }
@@ -100,10 +100,10 @@ public class UserModel {
     public boolean equals(Object o) {
         if (o == this)
             return true;
-        if (!(o instanceof UserModel)) {
+        if (!(o instanceof User)) {
             return false;
         }
-        UserModel userModel = (UserModel) o;
+        User userModel = (User) o;
         return id == userModel.id && Objects.equals(firstName, userModel.firstName) && Objects.equals(lastName, userModel.lastName) && Objects.equals(church, userModel.church) && zip == userModel.zip;
     }
 

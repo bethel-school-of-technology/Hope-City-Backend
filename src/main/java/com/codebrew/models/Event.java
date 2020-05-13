@@ -7,7 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class EventModel {
+public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -17,10 +17,10 @@ public class EventModel {
     public String eventState;
     public int eventZip;
 
-    public EventModel() {
+    public Event() {
     }
 
-    public EventModel(long id, String eventName, String eventAddress, String eventCity, String eventState,
+    public Event(long id, String eventName, String eventAddress, String eventCity, String eventState,
             int eventZip) {
         this.id = id;
         this.eventName = eventName;
@@ -78,32 +78,32 @@ public class EventModel {
         this.eventZip = eventZip;
     }
 
-    public EventModel id(long id) {
+    public Event id(long id) {
         this.id = id;
         return this;
     }
 
-    public EventModel eventName(String eventName) {
+    public Event eventName(String eventName) {
         this.eventName = eventName;
         return this;
     }
 
-    public EventModel eventAddress(String eventAddress) {
+    public Event eventAddress(String eventAddress) {
         this.eventAddress = eventAddress;
         return this;
     }
 
-    public EventModel eventCity(String eventCity) {
+    public Event eventCity(String eventCity) {
         this.eventCity = eventCity;
         return this;
     }
 
-    public EventModel eventState(String eventState) {
+    public Event eventState(String eventState) {
         this.eventState = eventState;
         return this;
     }
 
-    public EventModel eventZip(int eventZip) {
+    public Event eventZip(int eventZip) {
         this.eventZip = eventZip;
         return this;
     }
@@ -112,10 +112,10 @@ public class EventModel {
     public boolean equals(Object o) {
         if (o == this)
             return true;
-        if (!(o instanceof EventModel)) {
+        if (!(o instanceof Event)) {
             return false;
         }
-        EventModel eventModel = (EventModel) o;
+        Event eventModel = (Event) o;
         return id == eventModel.id && Objects.equals(eventName, eventModel.eventName)
                 && Objects.equals(eventAddress, eventModel.eventAddress)
                 && Objects.equals(eventCity, eventModel.eventCity) && Objects.equals(eventState, eventModel.eventState)

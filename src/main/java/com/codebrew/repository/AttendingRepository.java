@@ -1,5 +1,7 @@
 package com.codebrew.repository;
 
-public class AttendingRepository {
-    
+
+
+public class AttendingRepository{
+
 }
