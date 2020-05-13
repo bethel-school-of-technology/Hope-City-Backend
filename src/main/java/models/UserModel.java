@@ -1,4 +1,4 @@
-package com.codebrew.temporary.user;
+package models;
 
 import java.util.Objects;
 

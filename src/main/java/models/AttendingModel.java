@@ -1,4 +1,4 @@
-package com.codebrew.temporary.attending;
+package models;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

@@ -1,4 +1,4 @@
-package com.codebrew.temporary.churchadmin;
+package models;
 
 import java.util.Objects;
 
@@ -8,7 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class ChurchAdminModel {
+public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -18,10 +18,10 @@ public class ChurchAdminModel {
     private String state;
     private int zip;
 
-    public ChurchAdminModel() {
+    public Admin() {
     }
 
-    public ChurchAdminModel(long id, String churchName, String address, String city, String state, int zip) {
+    public Admin(long id, String churchName, String address, String city, String state, int zip) {
         this.id = id;
         this.churchName = churchName;
         this.address = address;
@@ -78,32 +78,32 @@ public class ChurchAdminModel {
         this.zip = zip;
     }
 
-    public ChurchAdminModel id(long id) {
+    public Admin id(long id) {
         this.id = id;
         return this;
     }
 
-    public ChurchAdminModel churchName(String churchName) {
+    public Admin churchName(String churchName) {
         this.churchName = churchName;
         return this;
     }
 
-    public ChurchAdminModel address(String address) {
+    public Admin address(String address) {
         this.address = address;
         return this;
     }
 
-    public ChurchAdminModel city(String city) {
+    public Admin city(String city) {
         this.city = city;
         return this;
     }
 
-    public ChurchAdminModel state(String state) {
+    public Admin state(String state) {
         this.state = state;
         return this;
     }
 
-    public ChurchAdminModel zip(int zip) {
+    public Admin zip(int zip) {
         this.zip = zip;
         return this;
     }
@@ -112,10 +112,10 @@ public class ChurchAdminModel {
     public boolean equals(Object o) {
         if (o == this)
             return true;
-        if (!(o instanceof ChurchAdminModel)) {
+        if (!(o instanceof Admin)) {
             return false;
         }
-        ChurchAdminModel churchAdminModel = (ChurchAdminModel) o;
+        Admin churchAdminModel = (Admin) o;
         return id == churchAdminModel.id && Objects.equals(churchName, churchAdminModel.churchName)
                 && Objects.equals(address, churchAdminModel.address) && Objects.equals(city, churchAdminModel.city)
                 && Objects.equals(state, churchAdminModel.state) && zip == churchAdminModel.zip;
