@@ -1,5 +1,4 @@
-package models;
-
+package com.codebrew.models;
 import java.util.Objects;
 
 import javax.persistence.Entity;

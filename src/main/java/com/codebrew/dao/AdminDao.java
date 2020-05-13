@@ -1,8 +1,8 @@
-package dao;
+package com.codebrew.dao;
 
 import java.util.UUID;
 
-import models.Admin;
+import com.codebrew.models.Admin;
 
 public interface AdminDao {
 

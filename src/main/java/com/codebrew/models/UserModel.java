@@ -1,4 +1,4 @@
-package models;
+package com.codebrew.models;
 
 import java.util.Objects;
 
@@ -17,6 +17,8 @@ public class UserModel {
     private String lastName;
     private String church;
     private int zip;
+    private String password;
+    private String username;
 
     public UserModel() {
     }
@@ -122,5 +124,35 @@ public class UserModel {
     }
 
 
+
+
+    /**
+     * @return String return the password
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * @param password the password to set
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+
+    /**
+     * @return String return the username
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * @param username the username to set
+     */
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
 }
