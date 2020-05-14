@@ -7,28 +7,39 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
+@Document
 @Entity
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Field
     private long id;
+    @Field
     private String firstName;
+    @Field
     private String lastName;
+    @Field
     private String church;
+    @Field
     private int zip;
+    @Field
     private String password;
+    @Field
     private String username;
 
-    public User() {
-    }
 
-    public User(long id, String firstName, String lastName, String church, int zip) {
+    public User(long id, String firstName, String lastName, String church, int zip, String password, String username) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.church = church;
         this.zip = zip;
+        this.password = password;
+        this.username = username;
     }
 
     public long getId() {
@@ -71,6 +82,22 @@ public class User {
         this.zip = zip;
     }
 
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return this.username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public User id(long id) {
         this.id = id;
         return this;
@@ -96,6 +123,16 @@ public class User {
         return this;
     }
 
+    public User password(String password) {
+        this.password = password;
+        return this;
+    }
+
+    public User username(String username) {
+        this.username = username;
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == this)
@@ -103,13 +140,13 @@ public class User {
         if (!(o instanceof User)) {
             return false;
         }
-        User userModel = (User) o;
-        return id == userModel.id && Objects.equals(firstName, userModel.firstName) && Objects.equals(lastName, userModel.lastName) && Objects.equals(church, userModel.church) && zip == userModel.zip;
+        User user = (User) o;
+        return id == user.id && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(church, user.church) && zip == user.zip && Objects.equals(password, user.password) && Objects.equals(username, user.username);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, church, zip);
+        return Objects.hash(id, firstName, lastName, church, zip, password, username);
     }
 
     @Override
@@ -120,39 +157,10 @@ public class User {
             ", lastName='" + getLastName() + "'" +
             ", church='" + getChurch() + "'" +
             ", zip='" + getZip() + "'" +
+            ", password='" + getPassword() + "'" +
+            ", username='" + getUsername() + "'" +
             "}";
     }
 
-
-
-
-    /**
-     * @return String return the password
-     */
-    public String getPassword() {
-        return password;
-    }
-
-    /**
-     * @param password the password to set
-     */
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-
-    /**
-     * @return String return the username
-     */
-    public String getUsername() {
-        return username;
-    }
-
-    /**
-     * @param username the username to set
-     */
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
 }
