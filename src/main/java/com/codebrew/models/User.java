@@ -8,7 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document
 @Entity
@@ -16,27 +15,18 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Field
     private long id;
-    @Field
     private String firstName;
-    @Field
     private String lastName;
-    @Field
-    private String church;
-    @Field
     private int zip;
-    @Field
     private String password;
-    @Field
     private String username;
 
 
-    public User(long id, String firstName, String lastName, String church, int zip, String password, String username) {
+    public User(long id, String firstName, String lastName, int zip, String password, String username) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.church = church;
         this.zip = zip;
         this.password = password;
         this.username = username;
@@ -64,14 +54,6 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public String getChurch() {
-        return this.church;
-    }
-
-    public void setChurch(String church) {
-        this.church = church;
     }
 
     public int getZip() {
@@ -113,11 +95,6 @@ public class User {
         return this;
     }
 
-    public User church(String church) {
-        this.church = church;
-        return this;
-    }
-
     public User zip(int zip) {
         this.zip = zip;
         return this;
@@ -134,19 +111,19 @@ public class User {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (o == this)
+    public boolean equals(Object u) {
+        if (u == this)
             return true;
-        if (!(o instanceof User)) {
+        if (!(u instanceof User)) {
             return false;
         }
-        User user = (User) o;
-        return id == user.id && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(church, user.church) && zip == user.zip && Objects.equals(password, user.password) && Objects.equals(username, user.username);
+        User user = (User) u;
+        return id == user.id && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && zip == user.zip && Objects.equals(password, user.password) && Objects.equals(username, user.username);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, church, zip, password, username);
+        return Objects.hash(id, firstName, lastName, zip, password, username);
     }
 
     @Override
@@ -155,7 +132,6 @@ public class User {
             " id='" + getId() + "'" +
             ", firstName='" + getFirstName() + "'" +
             ", lastName='" + getLastName() + "'" +
-            ", church='" + getChurch() + "'" +
             ", zip='" + getZip() + "'" +
             ", password='" + getPassword() + "'" +
             ", username='" + getUsername() + "'" +

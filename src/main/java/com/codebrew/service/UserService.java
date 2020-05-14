@@ -2,8 +2,7 @@ package com.codebrew.service;
 
 import java.util.List;
 
-import com.codebrew.dao.UserDao;
-
+import com.codebrew.dao.UserRepository;
 import com.codebrew.models.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,34 +12,33 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     @Autowired
-    private UserDao userDao;
+    private UserRepository userDao;
 
-    //create
+    // create
     public User create(long id, String firstName, String lastName, String church, int zip, String password,
             String username) {
-        return UserDao.save(new User(id, firstName, lastName, church, zip, password, username));
+        return userDao.save(new User(id, firstName, lastName, zip, password, username));
     }
 
-    //retrieve
+    // retrieve
     public List<User> getAll() {
         return userDao.findAll();
 
     }
 
-    //Update
+    // Update
     public User getByFirstName(String firstName) {
         return userDao.findByFirstName(firstName);
     }
 
-    public User update(String firstName, String lastName, String church, int zip, String password){
+    public User update(String firstName, String lastName, String church, int zip, String password) {
         User u = userDao.findByFirstName(firstName);
         u.setLastName(lastName);
-        u.setChurch(church);
         u.setZip(zip);
         u.setPassword(password);
     }
 
-    //delete
+    // delete
     public void deleteAll(String username) {
         userDao.deleteAll();
     }
