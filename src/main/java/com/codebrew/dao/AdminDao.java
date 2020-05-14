@@ -4,10 +4,13 @@ import java.util.UUID;
 
 import com.codebrew.models.Admin;
 
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.stereotype.Repository;
 
+@EnableMongoRepositories(basePackageClasses = AdminDao.class)
 @Repository
-public interface AdminDao {
+public interface AdminDao extends MongoRepository<Admin, UUID>{
 
     int insertAdmin(UUID id, Admin admin);
 
