@@ -1,13 +1,10 @@
 package com.codebrew.dao;
 
-import java.util.UUID;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import org.springframework.stereotype.Repository;
+import com.codebrew.models.Attending;
 
-@EnableMongoRepositories
-@Repository
-public interface AttendingDao extends MongoRepository<UUID, String> {
-
+public interface AttendingDao extends JpaRepository<Attending, Long> {
+	
+	
 }

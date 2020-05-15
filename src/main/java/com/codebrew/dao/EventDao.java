@@ -1,10 +1,9 @@
 package com.codebrew.dao;
 
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.security.core.userdetails.User;
 
-@EnableMongoRepositories
-@Repository
-public class EventDao{
-
+public interface EventDao extends JpaRepository<User, Long> {
+	
 }
+
