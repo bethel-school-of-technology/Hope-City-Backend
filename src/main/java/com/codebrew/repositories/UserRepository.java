@@ -1,12 +1,13 @@
 package com.codebrew.repositories;
 
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.User;
 
-public interface UserRepository extends JpaRepository<User, String> {
+public interface UserRepository extends JpaRepository<User, Long> {
+	com.codebrew.models.User findByUsername(String username);
 
-	static User findByUsername(String username) {
-	return null;
-	}
+	List<User> findAll();
+
 }
