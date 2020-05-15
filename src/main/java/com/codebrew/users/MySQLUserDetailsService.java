@@ -1,4 +1,4 @@
-package com.codebrew.auth;
+package com.codebrew.users;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.codebrew.repositories.UserRepository;
+
 
 
 @Service
@@ -25,11 +25,11 @@ public class MySQLUserDetailsService implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String username) {
-    User user = UserRepository.findByUsername(username);
+    User user = userRepository.findByUsername(username);
     if (user == null) {
       throw new UsernameNotFoundException(username);
     }
-    return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthorities());
+    return new User(user.getUsername(), user.getPassword(), getAuthorities());
   }
 
   public UserDetails Save(User newUser) {

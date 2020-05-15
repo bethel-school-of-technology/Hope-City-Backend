@@ -1,4 +1,4 @@
-package com.codebrew.models;
+package com.codebrew.users;
 
 import java.util.Objects;
 

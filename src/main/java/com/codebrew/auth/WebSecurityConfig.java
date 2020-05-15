@@ -1,6 +1,9 @@
 package com.codebrew.auth;
 
 import java.util.Arrays;
+
+import com.codebrew.users.MySQLUserDetailsService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
