@@ -19,7 +19,7 @@ public class EventController {
     EventRepository eventRepository;
 
     // GET ALL EVENTS
-    @GetMapping("/chat")
+    @GetMapping("/allEvents")
     public List<Event> getEvents() {
         List<Event> foundEvents = eventRepository.findAll();
         return foundEvents;
