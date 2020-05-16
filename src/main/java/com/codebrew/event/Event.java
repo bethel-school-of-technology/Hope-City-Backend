@@ -1,4 +1,5 @@
-package com.codebrew.models;
+package com.codebrew.event;
+
 import java.util.Objects;
 
 import javax.persistence.Entity;
@@ -18,10 +19,10 @@ public class Event {
     public int eventZip;
 
     public Event() {
+        super();
     }
 
-    public Event(long id, String eventName, String eventAddress, String eventCity, String eventState,
-            int eventZip) {
+    public Event(long id, String eventName, String eventAddress, String eventCity, String eventState, int eventZip) {
         this.id = id;
         this.eventName = eventName;
         this.eventAddress = eventAddress;
