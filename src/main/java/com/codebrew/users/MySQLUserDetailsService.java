@@ -12,8 +12,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-
-
 @Service
 public class MySQLUserDetailsService implements UserDetailsService {
 
@@ -35,7 +33,8 @@ public class MySQLUserDetailsService implements UserDetailsService {
   public UserDetails Save(User newUser) {
     newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
     User savedUser = userRepository.save(newUser);
-    return new org.springframework.security.core.userdetails.User(savedUser.getUsername(), savedUser.getPassword(), getAuthorities());
+    return new org.springframework.security.core.userdetails.User(savedUser.getUsername(), savedUser.getPassword(),
+        getAuthorities());
   }
 
   private List<SimpleGrantedAuthority> getAuthorities() {
