@@ -1,153 +1,148 @@
 package com.codebrew.models;
 
-import java.util.Objects;
-
+import java.sql.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 
 @Entity
+@Table(name = "admin")
 public class Admin {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
+    @Column(name = "church_name", nullable = false)
     private String churchName;
+
+    @Column(name = "address", nullable = false)
     private String address;
+
+    @Column(name = "city", nullable = false)
     private String city;
+
+    @Column(name = "state", nullable = false)
     private String state;
-    private int zip;
-    private String username;
+
+    @Column(name = "zip", nullable = false)
+    private String zip;
+
+    @Column(name = "userName", nullable = false)
+    private String userName;
+
+    @Column(name = "password", nullable = false)
     private String password;
 
-    public Admin() {
-    }
+    @Column(name = "created_at", nullable = false)
+    @CreatedDate
+    private Date createdAt;
 
-    public Admin(long id, String churchName, String address, String city, String state, int zip) {
-        this.id = id;
-        this.churchName = churchName;
-        this.address = address;
-        this.city = city;
-        this.state = state;
-        this.zip = zip;
-    }
 
-    public long getId() {
-        return this.id;
-    }
+    @Column(name = "created_by", nullable = false)
+    @CreatedBy
+    private String createdBy;
 
-    public void setId(long id) {
-        this.id = id;
-    }
 
+    @Column(name = "updated_at", nullable = false)
+    @LastModifiedDate
+    private Date updatedAt;
+
+
+    @Column(name = "updated_by", nullable = false)
+    @LastModifiedBy
+    private String updatedBy;
+
+    /**
+     * @return String return the churchName
+     */
     public String getChurchName() {
-        return this.churchName;
+        return churchName;
     }
 
+    /**
+     * @param churchName the churchName to set
+     */
     public void setChurchName(String churchName) {
         this.churchName = churchName;
     }
 
+    /**
+     * @return String return the address
+     */
     public String getAddress() {
-        return this.address;
+        return address;
     }
 
+    /**
+     * @param address the address to set
+     */
     public void setAddress(String address) {
         this.address = address;
     }
 
+    /**
+     * @return String return the city
+     */
     public String getCity() {
-        return this.city;
+        return city;
     }
 
+    /**
+     * @param city the city to set
+     */
     public void setCity(String city) {
         this.city = city;
     }
 
+    /**
+     * @return String return the state
+     */
     public String getState() {
-        return this.state;
+        return state;
     }
 
+    /**
+     * @param state the state to set
+     */
     public void setState(String state) {
         this.state = state;
     }
 
-    public int getZip() {
-        return this.zip;
-    }
-
-    public void setZip(int zip) {
-        this.zip = zip;
-    }
-
-    public Admin id(long id) {
-        this.id = id;
-        return this;
-    }
-
-    public Admin churchName(String churchName) {
-        this.churchName = churchName;
-        return this;
-    }
-
-    public Admin address(String address) {
-        this.address = address;
-        return this;
-    }
-
-    public Admin city(String city) {
-        this.city = city;
-        return this;
-    }
-
-    public Admin state(String state) {
-        this.state = state;
-        return this;
-    }
-
-    public Admin zip(int zip) {
-        this.zip = zip;
-        return this;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof Admin)) {
-            return false;
-        }
-        Admin churchAdminModel = (Admin) o;
-        return id == churchAdminModel.id && Objects.equals(churchName, churchAdminModel.churchName)
-                && Objects.equals(address, churchAdminModel.address) && Objects.equals(city, churchAdminModel.city)
-                && Objects.equals(state, churchAdminModel.state) && zip == churchAdminModel.zip;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, churchName, address, city, state, zip);
-    }
-
-    @Override
-    public String toString() {
-        return "{" + " id='" + getId() + "'" + ", churchName='" + getChurchName() + "'" + ", address='" + getAddress()
-                + "'" + ", city='" + getCity() + "'" + ", state='" + getState() + "'" + ", zip='" + getZip() + "'"
-                + "}";
-    }
-
-
     /**
-     * @return String return the username
+     * @return String return the zip
      */
-    public String getUsername() {
-        return username;
+    public String getZip() {
+        return zip;
     }
 
     /**
-     * @param username the username to set
+     * @param zip the zip to set
      */
-    public void setUsername(String username) {
-        this.username = username;
+    public void setZip(String zip) {
+        this.zip = zip;
+    }
+
+    /**
+     * @return String return the userName
+     */
+    public String getUserName() {
+        return userName;
+    }
+
+    /**
+     * @param userName the userName to set
+     */
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     /**
@@ -162,6 +157,62 @@ public class Admin {
      */
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    /**
+     * @return Date return the createdAt
+     */
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    /**
+     * @param createdAt the createdAt to set
+     */
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    /**
+     * @return String return the createdBy
+     */
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    /**
+     * @param createdBy the createdBy to set
+     */
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    /**
+     * @return Date return the updatedAt
+     */
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    /**
+     * @param updatedAt the updatedAt to set
+     */
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    /**
+     * @return String return the updatedBy
+     */
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    /**
+     * @param updatedBy the updatedBy to set
+     */
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
     }
 
 }
