@@ -18,6 +18,7 @@ public class MySQLUserDetailsService implements UserDetailsService {
   @Autowired
   private UserRepository userRepository;
 
+
   @Autowired
   private PasswordEncoder passwordEncoder;
 
@@ -30,11 +31,10 @@ public class MySQLUserDetailsService implements UserDetailsService {
     return new User(user.getUsername(), user.getPassword(), getAuthorities());
   }
 
-  public UserDetails Save(User newUser) {
+  public UserDetails Save(Users newUser) {
     newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-    User savedUser = userRepository.save(newUser);
-    return new org.springframework.security.core.userdetails.User(savedUser.getUsername(), savedUser.getPassword(),
-        getAuthorities());
+    Users savedUser = userRepository.save(newUser);
+    return new User(savedUser.getUsername(), savedUser.getPassword(), getAuthorities());
   }
 
   private List<SimpleGrantedAuthority> getAuthorities() {
