@@ -5,8 +5,8 @@ import java.util.Objects;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user")
-public class User {
+@Table(name = "users")
+public class Users {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,10 +21,10 @@ public class User {
   public String state;
   public int zip;
 
-  public User() {
+  public Users() {
   }
 
-  public User(Long id, String username, String password, String address, String city, String state, int zip) {
+  public Users(Long id, String username, String password, String address, String city, String state, int zip) {
     this.id = id;
     this.username = username;
     this.password = password;
@@ -90,37 +90,37 @@ public class User {
     this.zip = zip;
   }
 
-  public User id(Long id) {
+  public Users id(Long id) {
     this.id = id;
     return this;
   }
 
-  public User username(String username) {
+  public Users username(String username) {
     this.username = username;
     return this;
   }
 
-  public User password(String password) {
+  public Users password(String password) {
     this.password = password;
     return this;
   }
 
-  public User address(String address) {
+  public Users address(String address) {
     this.address = address;
     return this;
   }
 
-  public User city(String city) {
+  public Users city(String city) {
     this.city = city;
     return this;
   }
 
-  public User state(String state) {
+  public Users state(String state) {
     this.state = state;
     return this;
   }
 
-  public User zip(int zip) {
+  public Users zip(int zip) {
     this.zip = zip;
     return this;
   }
@@ -129,10 +129,10 @@ public class User {
   public boolean equals(Object o) {
     if (o == this)
       return true;
-    if (!(o instanceof User)) {
+    if (!(o instanceof Users)) {
       return false;
     }
-    User user = (User) o;
+    Users user = (Users) o;
     return Objects.equals(id, user.id) && Objects.equals(username, user.username)
         && Objects.equals(password, user.password) && Objects.equals(address, user.address)
         && Objects.equals(city, user.city) && Objects.equals(state, user.state) && zip == user.zip;
@@ -149,4 +149,5 @@ public class User {
         + ", address='" + getAddress() + "'" + ", city='" + getCity() + "'" + ", state='" + getState() + "'" + ", zip='"
         + getZip() + "'" + "}";
   }
+
 }

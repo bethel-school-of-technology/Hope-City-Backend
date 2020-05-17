@@ -1,5 +1,6 @@
 package com.codebrew.event;
 
+import java.sql.Date;
 import java.util.Objects;
 
 import javax.persistence.Entity;
@@ -17,18 +18,24 @@ public class Event {
     public String eventCity;
     public String eventState;
     public int eventZip;
+    public Date eventDay;
+    public String eventInfo;
 
+    
     public Event() {
         super();
     }
 
-    public Event(long id, String eventName, String eventAddress, String eventCity, String eventState, int eventZip) {
+    public Event(long id, String eventName, String eventAddress, String eventCity, String eventState, int eventZip,
+            Date eventDay, String eventInfo) {
         this.id = id;
         this.eventName = eventName;
         this.eventAddress = eventAddress;
         this.eventCity = eventCity;
         this.eventState = eventState;
         this.eventZip = eventZip;
+        this.eventDay = eventDay;
+        this.eventInfo = eventInfo;
     }
 
     public long getId() {
@@ -79,6 +86,22 @@ public class Event {
         this.eventZip = eventZip;
     }
 
+    public Date getEventDay() {
+        return this.eventDay;
+    }
+
+    public void setEventDay(Date eventDay) {
+        this.eventDay = eventDay;
+    }
+
+    public String getEventInfo() {
+        return this.eventInfo;
+    }
+
+    public void setEventInfo(String eventInfo) {
+        this.eventInfo = eventInfo;
+    }
+
     public Event id(long id) {
         this.id = id;
         return this;
@@ -109,6 +132,16 @@ public class Event {
         return this;
     }
 
+    public Event eventDay(Date eventDay) {
+        this.eventDay = eventDay;
+        return this;
+    }
+
+    public Event eventInfo(String eventInfo) {
+        this.eventInfo = eventInfo;
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == this)
@@ -116,23 +149,24 @@ public class Event {
         if (!(o instanceof Event)) {
             return false;
         }
-        Event eventModel = (Event) o;
-        return id == eventModel.id && Objects.equals(eventName, eventModel.eventName)
-                && Objects.equals(eventAddress, eventModel.eventAddress)
-                && Objects.equals(eventCity, eventModel.eventCity) && Objects.equals(eventState, eventModel.eventState)
-                && eventZip == eventModel.eventZip;
+        Event event = (Event) o;
+        return id == event.id && Objects.equals(eventName, event.eventName)
+                && Objects.equals(eventAddress, event.eventAddress) && Objects.equals(eventCity, event.eventCity)
+                && Objects.equals(eventState, event.eventState) && eventZip == event.eventZip
+                && Objects.equals(eventDay, event.eventDay) && Objects.equals(eventInfo, event.eventInfo);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, eventName, eventAddress, eventCity, eventState, eventZip);
+        return Objects.hash(id, eventName, eventAddress, eventCity, eventState, eventZip, eventDay, eventInfo);
     }
 
     @Override
     public String toString() {
         return "{" + " id='" + getId() + "'" + ", eventName='" + getEventName() + "'" + ", eventAddress='"
                 + getEventAddress() + "'" + ", eventCity='" + getEventCity() + "'" + ", eventState='" + getEventState()
-                + "'" + ", eventZip='" + getEventZip() + "'" + "}";
+                + "'" + ", eventZip='" + getEventZip() + "'" + ", eventDay='" + getEventDay() + "'" + ", eventInfo='"
+                + getEventInfo() + "'" + "}";
     }
 
 }
