@@ -1,4 +1,4 @@
-package com.codebrew.temporary;
+package com.codebrew.Main;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

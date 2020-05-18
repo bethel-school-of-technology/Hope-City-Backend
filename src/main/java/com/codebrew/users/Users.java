@@ -17,8 +17,8 @@ public class Users {
   public int zip;
 
   @Column(nullable = false, unique = true)
-  private String username;
-  private String password;
+  public String username;
+  public String password;
 
 
 

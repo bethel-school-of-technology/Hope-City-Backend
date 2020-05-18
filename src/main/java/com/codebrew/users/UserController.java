@@ -3,7 +3,7 @@ package com.codebrew.users;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.security.core.userdetails.User;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -30,8 +31,7 @@ public class UserController {
   @Autowired
   private MySQLUserDetailsService userService;
 
-
-  //CREATE
+  // CREATE
   @PutMapping("/user/{id}")
   public ResponseEntity<Users> newUser(@PathVariable(value = "id") Long id, @RequestBody Users username)
       throws Exception {
@@ -54,13 +54,29 @@ public class UserController {
   }
 
   // CREATE
-  @PostMapping("/register")
-  public void register(@RequestBody Users newUser) {
-    userService.Save(newUser);
-  }
+  // @PostMapping("/register")
+  // public void register(@RequestBody Users newUser) {
+  // userService.Save(newUser);
+  // }
+  @PostMapping("*/register")
+  public ResponseEntity<Users> registerUser(@RequestParam("username") String username,
+      @RequestParam("password") String password,
+      Model model) {
+    User foundUser = userRepository.findByUsername(username);
+    if (foundUser == null) {
+      Users newUser = new Users();
+      newUser.setUsername(username);
+      newUser.setPassword(password);
+      userService.Save(newUser);
+      return ResponseEntity.ok(newUser);
+    } else {
+      model.addAttribute("exists", true);
 
+    }
+    return null;
+  }
   // UPDATE
-  @PostMapping("/update/{id}")
+  @PutMapping("/update/{id}")
   public String update(@RequestBody Users u) {
     u.setUsername(u.getUsername());
     u.setAddress(u.getAddress());
@@ -74,11 +90,10 @@ public class UserController {
   }
 
   // GET ALL
-  @GetMapping("/allUsers")
+  @GetMapping("/all")
   public List<Users> findAll() {
     return userRepository.findAll();
   }
-
 
   // GET ONE
   @GetMapping("user/{id}")
@@ -90,7 +105,6 @@ public class UserController {
     }
     return ResponseEntity.ok(foundUser);
   }
-
 
   // DELETE ONE
   @DeleteMapping("/delete/{username}")
