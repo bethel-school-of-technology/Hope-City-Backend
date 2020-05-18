@@ -40,7 +40,29 @@ public class EventController {
     @PostMapping("/event")
     public ResponseEntity<Event> postEvent(@RequestBody Event event) {
         Event createdEvent = eventRepository.save(event);
+
         return ResponseEntity.ok(createdEvent);
+    }
+
+    @PutMapping("/event")
+    public ResponseEntity<Event> newEvent(@PathVariable(value = "id") Long id, @RequestBody Event event)
+            throws Exception {
+        Event uEvent = eventRepository.findById(id).orElse(null);
+
+        if (uEvent == null) {
+            return ResponseEntity.notFound().header("Message", "Event not found").build();
+        } else {
+            uEvent.setEventName(event.getEventName());
+            uEvent.setEventAddress(event.getEventAddress());
+            uEvent.setEventCity(event.getEventCity());
+            uEvent.setEventState(event.getEventState());
+            uEvent.setEventZip(event.getEventZip());
+            uEvent.setEventDay(event.getEventDay());
+            uEvent.setEventInfo(event.getEventInfo());
+            eventRepository.save(uEvent);
+        }
+        return ResponseEntity.ok(uEvent);
+
     }
 
     // UPDATE EVENT
