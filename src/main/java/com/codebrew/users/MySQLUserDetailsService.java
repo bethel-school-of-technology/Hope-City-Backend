@@ -41,5 +41,4 @@ public class MySQLUserDetailsService implements UserDetailsService {
     return new User(savedUser.getUsername(), savedUser.getPassword(), getAuthorities());
   }
 
-
 }
