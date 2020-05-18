@@ -11,15 +11,16 @@ public class Users {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
+  public String address;
+  public String city;
+  public String state;
+  public int zip;
 
   @Column(nullable = false, unique = true)
   private String username;
   private String password;
 
-  public String address;
-  public String city;
-  public String state;
-  public int zip;
+
 
   public Users() {
   }
