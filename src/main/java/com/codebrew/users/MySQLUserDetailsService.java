@@ -17,10 +17,14 @@ public class MySQLUserDetailsService implements UserDetailsService {
 
   @Autowired
   private UserRepository userRepository;
-
-
   @Autowired
   private PasswordEncoder passwordEncoder;
+
+  private List<SimpleGrantedAuthority> getAuthorities() {
+    List<SimpleGrantedAuthority> authList = new ArrayList<>();
+    authList.add(new SimpleGrantedAuthority("ROLE_USER"));
+    return authList;
+  }
 
   @Override
   public UserDetails loadUserByUsername(String username) {
@@ -37,9 +41,5 @@ public class MySQLUserDetailsService implements UserDetailsService {
     return new User(savedUser.getUsername(), savedUser.getPassword(), getAuthorities());
   }
 
-  private List<SimpleGrantedAuthority> getAuthorities() {
-    List<SimpleGrantedAuthority> authList = new ArrayList<>();
-    authList.add(new SimpleGrantedAuthority("ROLE_USER"));
-    return authList;
-  }
+
 }

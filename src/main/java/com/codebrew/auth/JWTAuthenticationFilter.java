@@ -1,6 +1,7 @@
 package com.codebrew.auth;
 
 import com.auth0.jwt.JWT;
+import com.codebrew.users.Users;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.core.*;
 import org.springframework.security.authentication.*;
@@ -24,7 +25,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
   public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res)
       throws AuthenticationException {
     try {
-      User creds = new ObjectMapper().readValue(req.getInputStream(), User.class);
+      Users creds = new ObjectMapper().readValue(req.getInputStream(), Users.class);
 
       return authenticationManager.authenticate(
           new UsernamePasswordAuthenticationToken(creds.getUsername(), creds.getPassword(), new ArrayList<>()));
