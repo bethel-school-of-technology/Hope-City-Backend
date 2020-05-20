@@ -1,4 +1,4 @@
-package com.codebrew.Main;
+package com.codebrew;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
