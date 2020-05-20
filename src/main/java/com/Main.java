@@ -1,10 +1,11 @@
-package com.codebrew;
+package com;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.context.annotation.ComponentScan;
 
-@RestController
+
+@ComponentScan(basePackages = { "com.codebrew.controllers" })
 @SpringBootApplication
 public class Main {
 

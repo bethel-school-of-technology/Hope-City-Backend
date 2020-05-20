@@ -1,8 +1,8 @@
 package com.codebrew.repository;
 
-import org.springframework.stereotype.Repository;
+import com.codebrew.models.*;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
-public class UsersRepository {
-    
+public interface UsersRepository extends JpaRepository<Users, Long> {
+    Users findByUsername(String username);
 }
