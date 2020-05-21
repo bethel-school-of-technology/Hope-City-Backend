@@ -12,21 +12,21 @@ public class Users {
     public Integer id;
 
     @Column(nullable = false, unique = true)
-    public String username;
+    public String email;
     public String password;
 
     public Users() {
         super();
     }
 
-    public Users(String username, String password) {
-        this.username = username;
+    public Users(String email, String password) {
+        this.email = email;
         this.password = password;
     }
 
-    public Users(Integer id, String username, String password) {
+    public Users(Integer id, String email, String password) {
         this.id = id;
-        this.username = username;
+        this.email = email;
         this.password = password;
     }
 
@@ -38,12 +38,12 @@ public class Users {
         this.id = id;
     }
 
-    public String getUsername() {
-        return this.username;
+    public String getemail() {
+        return this.email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setemail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -59,8 +59,8 @@ public class Users {
         return this;
     }
 
-    public Users username(String username) {
-        this.username = username;
+    public Users email(String email) {
+        this.email = email;
         return this;
     }
 

@@ -25,10 +25,17 @@ public class UsersController {
         return ResponseEntity.ok(newUser);
     }
 
-    // GET ONE
-    @GetMapping("/user/{username}")
-    public Users findUser(@PathVariable(value = "username") String username) {
-        return usersRepository.findByUsername(username);
+    // GET ONE for profile
+    // @GetMapping("/user/{username}")
+    // public Users findUser(@PathVariable(value = "username") String username) {
+    //     return usersRepository.findByUsername(username);
+    // }
+
+    //login
+    @PostMapping("/login")
+    public ResponseEntity<Users> login(@RequestBody Users user) {
+        System.out.println(user.toString());
+        return ResponseEntity.status(200).body(usersRepository.findByEmail(user.email));
     }
 
     // GET ALL
