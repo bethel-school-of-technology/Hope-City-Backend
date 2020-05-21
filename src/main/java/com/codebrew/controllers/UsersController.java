@@ -26,12 +26,12 @@ public class UsersController {
     }
 
     // GET ONE for profile
-    // @GetMapping("/user/{username}")
-    // public Users findUser(@PathVariable(value = "username") String username) {
-    //     return usersRepository.findByUsername(username);
-    // }
+    @GetMapping("/{email}")
+    public Users findUser(@PathVariable(value = "email") String email) {
+        return usersRepository.findByEmail(email);
+    }
 
-    //login
+    // login
     @PostMapping("/login")
     public ResponseEntity<Users> login(@RequestBody Users user) {
         System.out.println(user.toString());

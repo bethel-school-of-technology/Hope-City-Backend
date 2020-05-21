@@ -2,9 +2,8 @@ package com.codebrew.models;
 
 import javax.persistence.*;
 
-
 @Entity
-@Table(name ="users")
+@Table(name = "users")
 public class Users {
 
     @Id
@@ -14,20 +13,23 @@ public class Users {
     @Column(nullable = false, unique = true)
     public String email;
     public String password;
+    public Boolean admin;
 
     public Users() {
         super();
     }
 
-    public Users(String email, String password) {
+    public Users(String email, String password, Boolean admin) {
         this.email = email;
         this.password = password;
+        this.admin = admin;
     }
 
-    public Users(Integer id, String email, String password) {
+    public Users(Integer id, String email, String password, Boolean admin) {
         this.id = id;
         this.email = email;
         this.password = password;
+        this.admin = admin;
     }
 
     public Integer getId() {
@@ -38,11 +40,11 @@ public class Users {
         this.id = id;
     }
 
-    public String getemail() {
+    public String getEmail() {
         return this.email;
     }
 
-    public void setemail(String email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 
@@ -69,7 +71,13 @@ public class Users {
         return this;
     }
 
+    public Boolean getAdmin() {
+        return this.admin;
 
- 
+    }
+
+    public void setAdmin(Boolean admin) {
+        this.admin = admin;
+    }
 
 }
