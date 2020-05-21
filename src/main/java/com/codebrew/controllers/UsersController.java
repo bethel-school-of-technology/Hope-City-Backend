@@ -2,6 +2,10 @@ package com.codebrew.controllers;
 
 import java.util.*;
 
+// import javax.validation.Valid;
+
+// import javax.validation.Valid;
+
 import com.codebrew.models.*;
 import com.codebrew.repository.UsersRepository;
 
@@ -19,11 +23,32 @@ public class UsersController {
     private UsersRepository usersRepository;
 
     // CREATE ONE
-    @PostMapping()
+    @PostMapping("/register")
     public ResponseEntity<Users> newUser(@RequestBody Users user) {
         Users newUser = usersRepository.save(user);
         return ResponseEntity.ok(newUser);
     }
+
+    // // UPDATE ONE
+    // @PutMapping("/update/{email}")
+    // public ResponseEntity<Users> updateUser(@PathVariable(value = "email") String
+    // email,
+    // @Valid @RequestBody Users user) {
+
+    // Users foundUser = usersRepository.findByEmail(email);
+
+    // if (foundUser == null) {
+    // return ResponseEntity.notFound().header("Message", "invalid
+    // request").build();
+    // } else {
+    // foundUser.setAddress(foundUser.getAddress());
+    // foundUser.setCity(foundUser.getCity());
+    // foundUser.setState(foundUser.getState());
+    // foundUser.setZip(foundUser.getZip());
+    // usersRepository.save(foundUser);
+    // }
+    // return ResponseEntity.ok(foundUser);
+    // }
 
     // GET ONE for profile
     @GetMapping("/{email}")
@@ -34,6 +59,7 @@ public class UsersController {
     // login
     @PostMapping("/login")
     public ResponseEntity<Users> login(@RequestBody Users user) {
+
         System.out.println(user.toString());
         return ResponseEntity.status(200).body(usersRepository.findByEmail(user.email));
     }
@@ -46,9 +72,9 @@ public class UsersController {
     }
 
     // DELETE ONE
-    @DeleteMapping("/delete/{username}")
-    public ResponseEntity<Users> deleteUsers(@PathVariable(value = "id") Long id) {
-        Users foundUsers = usersRepository.findById(id).orElse(null);
+    @DeleteMapping("/delete/{email}")
+    public ResponseEntity<Users> deleteUsers(@PathVariable(value = "email") String email) {
+        Users foundUsers = usersRepository.findByEmail(email);
 
         if (foundUsers == null) {
             return ResponseEntity.notFound().header("Message", "Nothing found with that id").build();
