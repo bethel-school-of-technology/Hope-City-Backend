@@ -1,97 +1,24 @@
 package com.codebrew.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import com.codebrew.dao.EventRepository;
-import com.codebrew.models.Event;
+import com.codebrew.models.Events;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-@RestController
+@Controller
+@RequestMapping("/events")
 public class EventsController {
-
-    @Autowired
-    EventRepository eventRepository;
-
-    // GET ALL EVENTS
-    @GetMapping("/allEvents")
-    public List<Event> getEvents() {
-        List<Event> foundEvents = eventRepository.findAll();
-        return foundEvents;
+    
+   @GetMapping()
+   public String getAllEvents(Model model) {
+       List<Events> events = new ArrayList<Events> ();  
+    model.addAttribute("events", events);
+    return "events";
     }
 
-    // GET ONE EVENT
-    @GetMapping("/event/{id}")
-    public ResponseEntity<Event> getMessage(@PathVariable("id") Long id) {
-        Event foundEvent = eventRepository.findById(id).orElse(null);
-
-        if (foundEvent == null) {
-            return ResponseEntity.notFound().header("Event", "No Events found with that id").build();
-        }
-        return ResponseEntity.ok(foundEvent);
-    }
-
-    // POST EVENT
-    @PostMapping("/event")
-    public ResponseEntity<Event> postEvent(@RequestBody Event event) {
-        Event createdEvent = eventRepository.save(event);
-
-        return ResponseEntity.ok(createdEvent);
-    }
-
-    @PutMapping("/event")
-    public ResponseEntity<Event> newEvent(@PathVariable(value = "id") Long id, @RequestBody Event event)
-            throws Exception {
-        Event uEvent = eventRepository.findById(id).orElse(null);
-
-        if (uEvent == null) {
-            return ResponseEntity.notFound().header("Message", "Event not found").build();
-        } else {
-            uEvent.setEventName(event.getEventName());
-            uEvent.setEventAddress(event.getEventAddress());
-            uEvent.setEventCity(event.getEventCity());
-            uEvent.setEventState(event.getEventState());
-            uEvent.setEventZip(event.getEventZip());
-            uEvent.setEventDay(event.getEventDay());
-            uEvent.setEventInfo(event.getEventInfo());
-            eventRepository.save(uEvent);
-        }
-        return ResponseEntity.ok(uEvent);
-
-    }
-
-    // UPDATE EVENT
-    @PutMapping("/event/{id}")
-    public ResponseEntity<Event> updateEvent(@PathVariable(value = "id") Long id) {
-        Event foundEvent = eventRepository.findById(id).orElse(null);
-
-        if (foundEvent == null) {
-            return ResponseEntity.notFound().header("Event", "No Events found with that id").build();
-        } else {
-            eventRepository.save(foundEvent);
-        }
-        return ResponseEntity.ok().build();
-    }
-
-    // DELETE ONE EVENT
-    @DeleteMapping("/event/{id}")
-    public ResponseEntity<Event> deleteEvent(@PathVariable(value = "id") Long id) {
-        Event foundEvent = eventRepository.findById(id).orElse(null);
-
-        if (foundEvent == null) {
-            return ResponseEntity.notFound().header("Event", "No Events found with that id").build();
-        } else {
-            eventRepository.delete(foundEvent);
-        }
-        return ResponseEntity.ok().build();
-    }
 }
-
