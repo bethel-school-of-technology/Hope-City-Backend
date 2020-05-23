@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,13 +37,21 @@ public class EventsController {
         Events foundEvent = dao.findById(id).orElse(null);
 
         if(foundEvent == null) {
-            return ResponseEntity.notFound().header("message", "Nothing found with that id").build();
+            return ResponseEntity.notFound().header("Events", "Nothing found with that id").build();
         }
-        else {
-            dao.delete(foundEvent);
-        }
-        return ResponseEntity.ok().build();
-        }
+        return ResponseEntity.ok(foundEvent);
+    }
+
+    @PostMapping("/events")
+
+    public ResponseEntity<Events> postMessage(@RequestBody Events events) {
+
+        Events createdEvents = dao.save(events);
+
+        return ResponseEntity.ok(createdEvents);
+
+    }
+
     }
 
   
