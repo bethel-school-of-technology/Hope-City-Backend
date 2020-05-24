@@ -4,20 +4,16 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.crypto.Data;
-
 import com.codebrew.dao.EventRepository;
 import com.codebrew.models.Events;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.support.DaoSupport;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -28,13 +24,13 @@ public class EventsController {
 
     @GetMapping("/events")
     public List<Events> getEvents() {
-        List<Events> foundEvents = dao.findAll();
+        List<Events> foundEvents = doa.findAll();
         return foundEvents;
     }
 
     @GetMapping("/events/{id}")
     public ResponseEntity<Events> getEvents(@PathVariable("id") Integer id) {
-        Events foundEvent = dao.findById(id).orElse(null);
+        Events foundEvent = doa.findByEventId(id).orElse(null);
 
         if(foundEvent == null) {
             return ResponseEntity.notFound().header("Events", "Nothing found with that id").build();
@@ -46,13 +42,13 @@ public class EventsController {
 
     public ResponseEntity<Events> postMessage(@RequestBody Events events) {
 
-        Events createdEvents = dao.save(events);
+        Events createdEvents = doa.save(events);
 
         return ResponseEntity.ok(createdEvents);
 
     }
 
-    }
+    
 
   
    public String getAllEvents(Model model) {
