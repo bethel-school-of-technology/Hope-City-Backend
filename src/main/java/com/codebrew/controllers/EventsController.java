@@ -22,7 +22,7 @@ public class EventsController {
     @Autowired
     EventRepository doa;
 
-    @GetMapping("/events")
+    @GetMapping("/")
     public List<Events> getEvents() {
         List<Events> foundEvents = doa.findAll();
         return foundEvents;
