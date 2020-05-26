@@ -3,12 +3,15 @@ package com.codebrew.models;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.Objects;
+// import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+// import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -16,7 +19,7 @@ import javax.persistence.Table;
 public class Events {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Integer id;
+    public Long id;
 
     @Column(nullable = false, unique = false)
     public String eventName;
@@ -28,11 +31,15 @@ public class Events {
     public Time eventTime;
     public Date eventDay;
 
+    // @ManyToMany(mappedBy = "")
+    // Set<Users> userIdAttending;
+
+
     public Events() {
         super();
     }
 
-    public Events(Integer id, String eventName, String eventInfo, String eventAddress, String eventCity,
+    public Events(Long id, String eventName, String eventInfo, String eventAddress, String eventCity,
             String eventState, int eventZip, Time eventTime, Date eventDay) {
         this.id = id;
         this.eventName = eventName;
@@ -45,11 +52,11 @@ public class Events {
         this.eventDay = eventDay;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -117,7 +124,7 @@ public class Events {
         this.eventDay = eventDay;
     }
 
-    public Events id(Integer id) {
+    public Events id(Long id) {
         this.id = id;
         return this;
     }
