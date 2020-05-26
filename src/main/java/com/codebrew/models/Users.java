@@ -12,9 +12,10 @@ public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Integer id;
-    public String address;
     public String city;
     public String state;
+    public String firstName;
+    public String lastName;
     public int zip;
 
     @Column(nullable = false, unique = true)
@@ -22,21 +23,23 @@ public class Users {
     public String password;
     public Boolean admin;
 
-
-    // to apply attending to 
+    // to apply attending to
     // @ManyToMany
-    // @JoinTable(name = "attending", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "id"))
+    // @JoinTable(name = "attending", joinColumns = @JoinColumn(name = "id"),
+    // inverseJoinColumns = @JoinColumn(name = "id"))
     // Set<Events> attending;
+
+
 
     public Users() {
     }
 
-    public Users(Integer id, String address, String city, String state, int zip, String email, String password,
-            Boolean admin) {
+    public Users(Integer id, String city, String state, String firstName, String lastName, int zip, String email, String password, Boolean admin) {
         this.id = id;
-        this.address = address;
         this.city = city;
         this.state = state;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.zip = zip;
         this.email = email;
         this.password = password;
@@ -49,14 +52,6 @@ public class Users {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getAddress() {
-        return this.address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public String getCity() {
@@ -73,6 +68,22 @@ public class Users {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public String getFirstName() {
+        return this.firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return this.lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public int getZip() {
@@ -116,11 +127,6 @@ public class Users {
         return this;
     }
 
-    public Users address(String address) {
-        this.address = address;
-        return this;
-    }
-
     public Users city(String city) {
         this.city = city;
         return this;
@@ -128,6 +134,16 @@ public class Users {
 
     public Users state(String state) {
         this.state = state;
+        return this;
+    }
+
+    public Users firstName(String firstName) {
+        this.firstName = firstName;
+        return this;
+    }
+
+    public Users lastName(String lastName) {
+        this.lastName = lastName;
         return this;
     }
 
@@ -159,22 +175,27 @@ public class Users {
             return false;
         }
         Users users = (Users) o;
-        return Objects.equals(id, users.id) && Objects.equals(address, users.address)
-                && Objects.equals(city, users.city) && Objects.equals(state, users.state) && zip == users.zip
-                && Objects.equals(email, users.email) && Objects.equals(password, users.password)
-                && Objects.equals(admin, users.admin);
+        return Objects.equals(id, users.id) && Objects.equals(city, users.city) && Objects.equals(state, users.state) && Objects.equals(firstName, users.firstName) && Objects.equals(lastName, users.lastName) && zip == users.zip && Objects.equals(email, users.email) && Objects.equals(password, users.password) && Objects.equals(admin, users.admin);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, address, city, state, zip, email, password, admin);
+        return Objects.hash(id, city, state, firstName, lastName, zip, email, password, admin);
     }
 
     @Override
     public String toString() {
-        return "{" + " id='" + getId() + "'" + ", address='" + getAddress() + "'" + ", city='" + getCity() + "'"
-                + ", state='" + getState() + "'" + ", zip='" + getZip() + "'" + ", email='" + getEmail() + "'"
-                + ", password='" + getPassword() + "'" + ", admin='" + isAdmin() + "'" + "}";
+        return "{" +
+            " id='" + getId() + "'" +
+            ", city='" + getCity() + "'" +
+            ", state='" + getState() + "'" +
+            ", firstName='" + getFirstName() + "'" +
+            ", lastName='" + getLastName() + "'" +
+            ", zip='" + getZip() + "'" +
+            ", email='" + getEmail() + "'" +
+            ", password='" + getPassword() + "'" +
+            ", admin='" + isAdmin() + "'" +
+            "}";
     }
 
 }
