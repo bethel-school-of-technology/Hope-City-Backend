@@ -190,4 +190,8 @@ public class Events {
                 + ", eventState='" + getEventState() + "'" + ", eventZip='" + getEventZip() + "'" + ", eventTime='"
                 + getEventTime() + "'" + ", eventDay='" + getEventDay() + "'" + "}";
     }
+
+	public Events orElse(Object object) {
+		return null;
+	}
 }
