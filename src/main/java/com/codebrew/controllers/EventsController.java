@@ -66,11 +66,19 @@ public class EventsController {
 
     //UPDATE
 
-    @PostMapping("/update")
+     @PostMapping("/update/{id}")
 
-    public ResponseEntity<Events> updateEvents(@RequestBody Events events) {
-        Events updateEvents = eventsRepository.save(events);
-        return ResponseEntity.ok(updateEvents);
+    public ResponseEntity<Events> updateEventById(@PathVariable(value = "id")Long id) {
+        Events foundEvent = eventsRepository.findEventById(id);
+
+        if (foundEvent == null) {
+            return ResponseEntity.notFound().header("message", "Event Not Found").build();
+
+        } else {
+            eventsRepository.update(foundEvent);
+        }
+        return ResponseEntity.ok().build();
     }
+      
 
 }
