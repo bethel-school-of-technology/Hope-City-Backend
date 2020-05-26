@@ -64,4 +64,13 @@ public class EventsController {
         return ResponseEntity.ok().build();
     }
 
+    //UPDATE
+
+    @PostMapping("/update")
+
+    public ResponseEntity<Events> updateEvents(@RequestBody Events events) {
+        Events updateEvents = eventsRepository.save(events);
+        return ResponseEntity.ok(updateEvents);
+    }
+
 }
