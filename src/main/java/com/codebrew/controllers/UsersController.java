@@ -1,5 +1,6 @@
 package com.codebrew.controllers;
 
+import java.io.IOException;
 import java.util.*;
 
 import javax.validation.Valid;
@@ -9,6 +10,7 @@ import com.codebrew.repository.UsersIdRepository;
 import com.codebrew.repository.UsersRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
@@ -26,34 +28,37 @@ public class UsersController {
 
     // CREATE ONE working
     @PostMapping()
-    public ResponseEntity<Users> newUser(@RequestBody Users user) {
+    public ResponseEntity<Users> newUser(@RequestBody Users user) throws IOException {
         Users newUser = usersRepository.save(user);
+        System.out.println("new user added");
         return ResponseEntity.ok(newUser);
     }
 
     // GET ONE for profile working
     @GetMapping("/{email}")
-    public Users findUser(@PathVariable(value = "email") String email) {
+    public Users findUser(@PathVariable(value = "email") String email) throws NotFoundException {
+        System.out.println(" found by email");
         return usersRepository.findByEmail(email);
     }
 
     // login
     @PostMapping("/login")
-    public ResponseEntity<Users> login(@RequestBody Users user) {
+    public ResponseEntity<Users> login(@RequestBody Users user) throws NotFoundException {
         System.out.println(user.toString());
         return ResponseEntity.status(200).body(usersRepository.findByEmail(user.email));
     }
 
     // GET ALL working
     @GetMapping()
-    public List<Users> getUsers() {
+    public List<Users> getUsers() throws IOException {
         List<Users> foundUsers = usersRepository.findAll();
+        System.out.println("get all called");
         return foundUsers;
     }
 
     // DELETE ONE working
     @DeleteMapping("/{email}")
-    public ResponseEntity<Users> deleteUsers(@PathVariable(value = "email") String email) {
+    public ResponseEntity<Users> deleteUsers(@PathVariable(value = "email") String email) throws NotFoundException {
         Users foundUsers = usersRepository.findByEmail(email);
 
         if (foundUsers == null) {
@@ -61,13 +66,14 @@ public class UsersController {
         } else {
             usersRepository.delete(foundUsers);
         }
+        System.out.println("user deleted");
         return ResponseEntity.ok().build();
     }
 
     // UPDATE
     @PutMapping("/update/{id}")
     public ResponseEntity<Users> updateUser(@PathVariable(value = "id") Integer id,
-            @Valid @RequestBody Users userDetails) {
+            @Valid @RequestBody Users userDetails) throws NotFoundException {
         Users user = idRepo.findUserById(id);
 
         if (userDetails == null) {
@@ -84,6 +90,7 @@ public class UsersController {
             user.setAdmin(userDetails.getAdmin());
 
             final Users updatedUser = idRepo.save(user);
+            System.out.println("user updated");
             return ResponseEntity.ok(updatedUser);
 
         }

@@ -78,7 +78,6 @@ public class EventsController {
         if (eventDetails == null) {
             System.out.println("event not found to update");
             return ResponseEntity.notFound().header("message", "Event Not Found").build();
-            
 
         } else {
 
