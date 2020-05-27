@@ -22,6 +22,7 @@ public class Events {
     public Long id;
 
     @Column(nullable = false, unique = false)
+    public String hostName;
     public String eventName;
     public String eventInfo;
     public String eventAddress;
@@ -35,13 +36,13 @@ public class Events {
     // Set<Users> userIdAttending;
 
 
+
     public Events() {
-        super();
     }
 
-    public Events(Long id, String eventName, String eventInfo, String eventAddress, String eventCity,
-            String eventState, int eventZip, Time eventTime, Date eventDay) {
+    public Events(Long id, String hostName, String eventName, String eventInfo, String eventAddress, String eventCity, String eventState, int eventZip, Time eventTime, Date eventDay) {
         this.id = id;
+        this.hostName = hostName;
         this.eventName = eventName;
         this.eventInfo = eventInfo;
         this.eventAddress = eventAddress;
@@ -58,6 +59,14 @@ public class Events {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getHostName() {
+        return this.hostName;
+    }
+
+    public void setHostName(String hostName) {
+        this.hostName = hostName;
     }
 
     public String getEventName() {
@@ -129,6 +138,11 @@ public class Events {
         return this;
     }
 
+    public Events hostName(String hostName) {
+        this.hostName = hostName;
+        return this;
+    }
+
     public Events eventName(String eventName) {
         this.eventName = eventName;
         return this;
@@ -177,28 +191,28 @@ public class Events {
             return false;
         }
         Events events = (Events) o;
-        return Objects.equals(id, events.id) && Objects.equals(eventName, events.eventName)
-                && Objects.equals(eventInfo, events.eventInfo) && Objects.equals(eventAddress, events.eventAddress)
-                && Objects.equals(eventCity, events.eventCity) && Objects.equals(eventState, events.eventState)
-                && eventZip == events.eventZip && Objects.equals(eventTime, events.eventTime)
-                && Objects.equals(eventDay, events.eventDay);
+        return Objects.equals(id, events.id) && Objects.equals(hostName, events.hostName) && Objects.equals(eventName, events.eventName) && Objects.equals(eventInfo, events.eventInfo) && Objects.equals(eventAddress, events.eventAddress) && Objects.equals(eventCity, events.eventCity) && Objects.equals(eventState, events.eventState) && eventZip == events.eventZip && Objects.equals(eventTime, events.eventTime) && Objects.equals(eventDay, events.eventDay);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, eventName, eventInfo, eventAddress, eventCity, eventState, eventZip, eventTime,
-                eventDay);
+        return Objects.hash(id, hostName, eventName, eventInfo, eventAddress, eventCity, eventState, eventZip, eventTime, eventDay);
     }
 
     @Override
     public String toString() {
-        return "{" + " id='" + getId() + "'" + ", eventName='" + getEventName() + "'" + ", eventInfo='" + getEventInfo()
-                + "'" + ", eventAddress='" + getEventAddress() + "'" + ", eventCity='" + getEventCity() + "'"
-                + ", eventState='" + getEventState() + "'" + ", eventZip='" + getEventZip() + "'" + ", eventTime='"
-                + getEventTime() + "'" + ", eventDay='" + getEventDay() + "'" + "}";
+        return "{" +
+            " id='" + getId() + "'" +
+            ", hostName='" + getHostName() + "'" +
+            ", eventName='" + getEventName() + "'" +
+            ", eventInfo='" + getEventInfo() + "'" +
+            ", eventAddress='" + getEventAddress() + "'" +
+            ", eventCity='" + getEventCity() + "'" +
+            ", eventState='" + getEventState() + "'" +
+            ", eventZip='" + getEventZip() + "'" +
+            ", eventTime='" + getEventTime() + "'" +
+            ", eventDay='" + getEventDay() + "'" +
+            "}";
     }
-
-	public Events orElse(Object object) {
-		return null;
-	}
+    
 }
