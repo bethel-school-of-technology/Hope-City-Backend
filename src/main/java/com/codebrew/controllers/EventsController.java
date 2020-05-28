@@ -1,17 +1,13 @@
 package com.codebrew.controllers;
 
-import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import com.codebrew.models.Events;
-import com.codebrew.models.Users;
 import com.codebrew.repository.EventsRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
