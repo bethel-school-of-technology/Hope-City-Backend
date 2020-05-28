@@ -35,7 +35,7 @@ public class EventsController {
 
     // GET ONE
     @GetMapping("/get/{id}")
-    public ResponseEntity<Events> getEvents(@PathVariable("id") Long id) {
+    public ResponseEntity<Events> getEvents(@PathVariable("id") Integer id) {
         Events foundEvent = eventsRepository.findEventById(id);
 
         if (foundEvent == null) {
@@ -55,7 +55,7 @@ public class EventsController {
     // DELETE ONE
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Events> deleteEventById(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<Events> deleteEventById(@PathVariable(value = "id") Integer id) {
         Events foundEvent = eventsRepository.findEventById(id);
 
         if (foundEvent == null) {
@@ -71,7 +71,7 @@ public class EventsController {
 
     @PutMapping("/update/{id}")
 
-    public ResponseEntity<Events> updateEventById(@PathVariable(value = "id") Long id,
+    public ResponseEntity<Events> updateEventById(@PathVariable(value = "id") Integer id,
             @Valid @RequestBody Events eventDetails) {
         Events event = eventsRepository.findEventById(id);
 

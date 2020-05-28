@@ -1,16 +1,19 @@
 package com.codebrew.models;
 
+import java.util.HashSet;
 import java.util.Objects;
 // import java.util.Set;
+import java.util.Set;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "users")
+@Table(name = "USERS")
 public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "USER_ID")
     public Integer id;
     public String city;
     public String state;
@@ -22,19 +25,22 @@ public class Users {
     public String email;
     public String password;
     public Boolean admin;
+    private Set<UserEvent> userEvent = new HashSet<UserEvent>();
 
-    // to apply attending to
-    // @ManyToMany
-    // @JoinTable(name = "attending", joinColumns = @JoinColumn(name = "id"),
-    // inverseJoinColumns = @JoinColumn(name = "id"))
-    // Set<Events> attending;
+    @OneToMany(mappedBy = "user")
+    public Set<UserEvent> getUserEvent() {
+        return userEvent;
+    }
 
 
+    public void addEvent(UserEvent event) {
+        this.userEvent.add(event);
+    }
 
     public Users() {
     }
 
-    public Users(Integer id, String city, String state, String firstName, String lastName, int zip, String email, String password, Boolean admin) {
+    public Users(Integer id, String city, String state, String firstName, String lastName, int zip, String email, String password, Boolean admin, Set<UserEvent> userEvent) {
         this.id = id;
         this.city = city;
         this.state = state;
@@ -44,6 +50,7 @@ public class Users {
         this.email = email;
         this.password = password;
         this.admin = admin;
+        this.userEvent = userEvent;
     }
 
     public Integer getId() {
@@ -122,6 +129,10 @@ public class Users {
         this.admin = admin;
     }
 
+    public void setUserEvent(Set<UserEvent> userEvent) {
+        this.userEvent = userEvent;
+    }
+
     public Users id(Integer id) {
         this.id = id;
         return this;
@@ -167,6 +178,11 @@ public class Users {
         return this;
     }
 
+    public Users userEvent(Set<UserEvent> userEvent) {
+        this.userEvent = userEvent;
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == this)
@@ -175,12 +191,12 @@ public class Users {
             return false;
         }
         Users users = (Users) o;
-        return Objects.equals(id, users.id) && Objects.equals(city, users.city) && Objects.equals(state, users.state) && Objects.equals(firstName, users.firstName) && Objects.equals(lastName, users.lastName) && zip == users.zip && Objects.equals(email, users.email) && Objects.equals(password, users.password) && Objects.equals(admin, users.admin);
+        return Objects.equals(id, users.id) && Objects.equals(city, users.city) && Objects.equals(state, users.state) && Objects.equals(firstName, users.firstName) && Objects.equals(lastName, users.lastName) && zip == users.zip && Objects.equals(email, users.email) && Objects.equals(password, users.password) && Objects.equals(admin, users.admin) && Objects.equals(userEvent, users.userEvent);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, city, state, firstName, lastName, zip, email, password, admin);
+        return Objects.hash(id, city, state, firstName, lastName, zip, email, password, admin, userEvent);
     }
 
     @Override
@@ -195,7 +211,10 @@ public class Users {
             ", email='" + getEmail() + "'" +
             ", password='" + getPassword() + "'" +
             ", admin='" + isAdmin() + "'" +
+            ", userEvent='" + getUserEvent() + "'" +
             "}";
     }
+
+   
 
 }

@@ -2,25 +2,29 @@ package com.codebrew.models;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.HashSet;
 import java.util.Objects;
 // import java.util.Set;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+import javax.persistence.OneToMany;
 // import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "events")
+@Table(name = "EVENTS")
 public class Events {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long id;
-
+    @Column(name = "EVENT_ID")
+    public Integer id;
+    
     @Column(nullable = false, unique = false)
     public String hostName;
     public String eventName;
@@ -31,16 +35,26 @@ public class Events {
     public int eventZip;
     public Time eventTime;
     public Date eventDay;
+    
+    private Set<UserEvent> userEvent = new HashSet<UserEvent>();
 
-    // @ManyToMany(mappedBy = "")
-    // Set<Users> userIdAttending;
+    @OneToMany(mappedBy = "event")
+    public Set<UserEvent> getUserEvents() {
+        return userEvent;
+    }
+    
+    public void setUserGroups(Set<UserEvent> events) {
+        this.userEvent = events;
+    }
 
-
+    public void addUserEvent(UserEvent userEvent) {
+        this.userEvent.add(userEvent);
+    }
 
     public Events() {
     }
 
-    public Events(Long id, String hostName, String eventName, String eventInfo, String eventAddress, String eventCity, String eventState, int eventZip, Time eventTime, Date eventDay) {
+    public Events(Integer id, String hostName, String eventName, String eventInfo, String eventAddress, String eventCity, String eventState, int eventZip, Time eventTime, Date eventDay, Set<UserEvent> userEvent) {
         this.id = id;
         this.hostName = hostName;
         this.eventName = eventName;
@@ -51,13 +65,14 @@ public class Events {
         this.eventZip = eventZip;
         this.eventTime = eventTime;
         this.eventDay = eventDay;
+        this.userEvent = userEvent;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return this.id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -133,7 +148,15 @@ public class Events {
         this.eventDay = eventDay;
     }
 
-    public Events id(Long id) {
+    public Set<UserEvent> getUserEvent() {
+        return this.userEvent;
+    }
+
+    public void setUserEvent(Set<UserEvent> userEvent) {
+        this.userEvent = userEvent;
+    }
+
+    public Events id(Integer id) {
         this.id = id;
         return this;
     }
@@ -183,6 +206,11 @@ public class Events {
         return this;
     }
 
+    public Events userEvent(Set<UserEvent> userEvent) {
+        this.userEvent = userEvent;
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == this)
@@ -191,12 +219,12 @@ public class Events {
             return false;
         }
         Events events = (Events) o;
-        return Objects.equals(id, events.id) && Objects.equals(hostName, events.hostName) && Objects.equals(eventName, events.eventName) && Objects.equals(eventInfo, events.eventInfo) && Objects.equals(eventAddress, events.eventAddress) && Objects.equals(eventCity, events.eventCity) && Objects.equals(eventState, events.eventState) && eventZip == events.eventZip && Objects.equals(eventTime, events.eventTime) && Objects.equals(eventDay, events.eventDay);
+        return Objects.equals(id, events.id) && Objects.equals(hostName, events.hostName) && Objects.equals(eventName, events.eventName) && Objects.equals(eventInfo, events.eventInfo) && Objects.equals(eventAddress, events.eventAddress) && Objects.equals(eventCity, events.eventCity) && Objects.equals(eventState, events.eventState) && eventZip == events.eventZip && Objects.equals(eventTime, events.eventTime) && Objects.equals(eventDay, events.eventDay) && Objects.equals(userEvent, events.userEvent);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, hostName, eventName, eventInfo, eventAddress, eventCity, eventState, eventZip, eventTime, eventDay);
+        return Objects.hash(id, hostName, eventName, eventInfo, eventAddress, eventCity, eventState, eventZip, eventTime, eventDay, userEvent);
     }
 
     @Override
@@ -212,6 +240,7 @@ public class Events {
             ", eventZip='" + getEventZip() + "'" +
             ", eventTime='" + getEventTime() + "'" +
             ", eventDay='" + getEventDay() + "'" +
+            ", userEvent='" + getUserEvent() + "'" +
             "}";
     }
     
