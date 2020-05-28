@@ -105,18 +105,6 @@ public class EventsController {
         }
     }
 
-
- @DateTimeFormat(pattern = "mm/dd/yyyy JJ:mm:ss")
-    private Date eventDateFrom;
-private String eventDateTo;
-private Integer minEventPartcipants;
-private String eventDateConfirmTo;
-private String location;
-private String minEventTime;
-private List<Events> participantList = new ArrayList<Events>();
-
-Events event = new Events();
-
     
 
 }

@@ -1,6 +1,5 @@
 package com.codebrew.models;
 
-import java.sql.Date;
 import java.sql.Time;
 import java.util.Objects;
 // import java.util.Set;
@@ -30,7 +29,7 @@ public class Events {
     public String eventState;
     public int eventZip;
     public Time eventTime;
-    public Date eventDay;
+    public String eventDay;
 
     // @ManyToMany(mappedBy = "")
     // Set<Users> userIdAttending;
@@ -40,7 +39,8 @@ public class Events {
     public Events() {
     }
 
-    public Events(Long id, String hostName, String eventName, String eventInfo, String eventAddress, String eventCity, String eventState, int eventZip, Time eventTime, Date eventDay) {
+    public Events(Long id, String hostName, String eventName, String eventInfo, String eventAddress, String eventCity, String eventState, int eventZip, Time eventTime, 
+            String eventDay) {
         this.id = id;
         this.hostName = hostName;
         this.eventName = eventName;
@@ -125,11 +125,11 @@ public class Events {
         this.eventTime = eventTime;
     }
 
-    public Date getEventDay() {
+    public String getEventDay() {
         return this.eventDay;
     }
 
-    public void setEventDay(Date eventDay) {
+    public void setEventDay(String eventDay) {
         this.eventDay = eventDay;
     }
 
@@ -178,7 +178,7 @@ public class Events {
         return this;
     }
 
-    public Events eventDay(Date eventDay) {
+    public Events eventDay(String eventDay) {
         this.eventDay = eventDay;
         return this;
     }
