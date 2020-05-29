@@ -8,6 +8,7 @@ import com.codebrew.repository.UserEventRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,7 +33,8 @@ public class UserEventController {
 
             UserEvent userEvent = new UserEvent();
 
-            userEvent.getUser(uEDetails.setUser(user));
+            userEvent.setUser(uEDetails.getUser(user);
+            userEvent.setEvent(uEDetails.getEvent(event));
 
             final UserEvent updatedAttending = userEventRepo.save(userEvent);
             System.out.println("attending updated");
@@ -40,10 +42,10 @@ public class UserEventController {
 
         }
 
-        @DeleteMapping("/attending/delete{id}")
-        UserEvent userEvent = new UserEvent();
-        userEvent.setId(id);
-        session.delete(userEvent);
+        // @DeleteMapping("/attending/delete{id}")
+        // UserEvent userEvent = new UserEvent();
+        // userEvent.setId(id);
+        // session.delete(userEvent);
 
     }
 }
