@@ -16,8 +16,8 @@ import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/user")
 public class UsersController {
 
@@ -46,7 +46,15 @@ public class UsersController {
     @PostMapping("/login")
     public ResponseEntity<Users> login(@RequestBody Users user) throws NotFoundException {
         System.out.println(user.toString());
-        return ResponseEntity.status(200).body(usersRepository.findByEmail(user.email));
+        Users temp = usersRepository.findByEmail(user.email);
+        // System.out.println(temp.toString());
+        // System.out.println(temp.password);
+        // System.out.println(user.password);
+        if(temp.password.equals(user.password)) {
+            return ResponseEntity.status(200).body(temp);
+        } else {
+            return ResponseEntity.status(403).body(null);
+        }
     }
 
     // GET ALL working
