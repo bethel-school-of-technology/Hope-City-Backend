@@ -1,6 +1,5 @@
 package com.codebrew.models;
 
-import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,8 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
 
 @Entity
 @Table(name = "USERS_EVENTS")
@@ -33,9 +31,6 @@ public class UserEvent {
         return events;
     }
 
-    // additional fields
-    private boolean activated;
-    private Date registeredDate;
 
     @Id
     @GeneratedValue
@@ -56,21 +51,4 @@ public class UserEvent {
         this.events = events;
     }
 
-    public boolean isActivated() {
-        return activated;
-    }
-
-    public void setActivated(boolean activated) {
-        this.activated = activated;
-    }
-
-    @Column(name = "REGISTERED_DATE")
-    @Temporal(TemporalType.DATE)
-    public Date getRegisteredDate() {
-        return registeredDate;
-    }
-
-    public void setRegisteredDate(Date registeredDate) {
-        this.registeredDate = registeredDate;
-    }
 }

@@ -22,9 +22,6 @@ import org.springframework.web.bind.annotation.*;
 public class UsersController {
 
     @Autowired
-    private EventsRepository eventRepository;
-
-    @Autowired
     private UsersRepository usersRepository;
 
     @Autowired
@@ -98,35 +95,13 @@ public class UsersController {
             return ResponseEntity.ok(updatedUser);
 
         }
-
-        // ========================================
-        // One to Many for attending
-        // this user will be found by the inputted id
-
     }
 
-    @PutMapping("/attending/{id}")
-    public ResponseEntity<UserEvent> updateUserEvent(@PathVariable(value = "id") Integer id,
-            @Valid @RequestBody Users userDetails, @Valid @RequestBody Events eventDetails) throws NotFoundException {
-        Users user = idRepo.findUserById(id);
-        Events event = eventRepository.findEventById(id);
 
-        if (userDetails == null) {
-            return ResponseEntity.notFound().header("Message", "no user found with that Id").build();
-        } else {
-            user.setFirstName(userDetails.getFirstName());
-            event.setEventName(eventDetails.getEventName());
-            
-        UserEvent userEvent = user + event;    
 
-            final UserEvent updatedAttending = usersRepository.save(userEvent);
-            System.out.println("attending updated");
-            return ResponseEntity.ok().build();
+        // @DeleteMapping("/attending/delete{id}")
+        // UserEvent userEvent = new UserEvent();
+        // userEvent.setId(id);
+        // session.delete(userEvent);
+    }
 
-        }
-
-    // @DeleteMapping("/attending/delete{id}")
-    // UserEvent userEvent = new UserEvent();
-    // userEvent.setId(id);
-    // session.delete(userEvent);
-}
