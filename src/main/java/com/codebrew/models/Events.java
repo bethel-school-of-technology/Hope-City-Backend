@@ -31,7 +31,7 @@ public class Events {
     public String eventStartTime;
     public String eventEndTime;
     public Date eventDay;
-
+//justrandom
     // @ManyToMany(mappedBy = "")
     // Set<Users> userIdAttending;
 
