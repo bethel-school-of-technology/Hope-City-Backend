@@ -89,7 +89,8 @@ public class EventsController {
             event.setEventCity(eventDetails.getEventCity());
             event.setEventState(eventDetails.getEventState());
             event.setEventZip(eventDetails.getEventZip());
-            event.setEventTime(eventDetails.getEventTime());
+            event.setEventStartTime(eventDetails.getEventStartTime());
+            event.setEventEndTime(eventDetails.getEventEndTime());
             event.setEventDay(eventDetails.getEventDay());
 
             final Events updatedEvent = eventsRepository.save(event);
