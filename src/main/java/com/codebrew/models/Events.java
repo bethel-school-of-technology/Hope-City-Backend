@@ -19,7 +19,7 @@ public class Events {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;
-
+//dude
     @Column(nullable = false, unique = false)
     public String hostName;
     public String eventName;
