@@ -15,7 +15,7 @@ import com.codebrew.service.MySQLUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -32,10 +32,10 @@ public class UsersController {
     @Autowired
     MySQLUserDetailsService userService;
 
-    // ===============================================================================================================================================================================================================
+    // ==================================================================================================================================
     // CREATE ONE working
     @PostMapping()
-    public ResponseEntity<Users> newUser(@RequestBody Users user) throws IOException {
+    public ResponseEntity<Users> newUser(@RequestBody Users user) throws UsernameNotFoundException {
         Users newUser = usersRepository.save(user);
         System.out.println("new user added" + user);
         return ResponseEntity.ok(newUser);
@@ -43,8 +43,8 @@ public class UsersController {
 
     // ===============================================================================================================================================================================================================
     // GET ONE for profile working
-    @GetMapping("/{email}")
-    public Users findUser(@PathVariable(value = "email") String email) throws NotFoundException {
+@RequestMapping(value = "/{email}", produces = "application/json", method = { RequestMethod.GET })
+    public Users findUser(@PathVariable(value = "email") String email) throws UsernameNotFoundException {
         System.out.println(" found by email");
         return usersRepository.findByEmail(email);
     }
@@ -52,7 +52,7 @@ public class UsersController {
 
     // login
     @PostMapping("/login")
-    public ResponseEntity<Users> login(@RequestBody Users user) throws NotFoundException {
+    public ResponseEntity<Users> login(@RequestBody Users user) throws UsernameNotFoundException {
         System.out.println(user.toString());
         Users temp = usersRepository.findByEmail(user.email);
         // System.out.println(temp.toString());
@@ -67,11 +67,7 @@ public class UsersController {
     // ===============================================================================================================================================================================================================
 
     // GET ALL working
-    @RequestMapping(
-        value = "/getall",
-        produces = "application/json",
-        method = {RequestMethod.GET}
-    )
+    @RequestMapping(produces = "application/json", method = { RequestMethod.GET })
     public List<Users> getUsers() throws IOException {
         List<Users> foundUsers = usersRepository.findAll();
         System.out.println("get all called" + foundUsers);
@@ -79,23 +75,23 @@ public class UsersController {
     }
     // ===============================================================================================================================================================================================================
 
-    // DELETE ONE working
-    @DeleteMapping("/{email}")
-    public ResponseEntity<Users> deleteUsers(@PathVariable(value = "email") String email) throws NotFoundException {
-        Users foundUsers = usersRepository.findByEmail(email);
+    // // DELETE ONE working
+    // @DeleteMapping("/{email}")
+    // public ResponseEntity<Users> deleteUsers(@PathVariable(value = "email") String email) throws NotFoundException {
+    //     Users foundUsers = usersRepository.findByEmail(email);
 
-        if (foundUsers == null) {
-            return ResponseEntity.notFound().header("Message", "Nothing found with that id").build();
-        } else {
-            usersRepository.delete(foundUsers);
-        }
-        System.out.println("user deleted");
-        return ResponseEntity.ok().build();
-    }
+    //     if (foundUsers == null) {
+    //         return ResponseEntity.notFound().header("Message", "Nothing found with that id").build();
+    //     } else {
+    //         usersRepository.delete(foundUsers);
+    //     }
+    //     System.out.println("user deleted");
+    //     return ResponseEntity.ok().build();
+    // }
     // ===============================================================================================================================================================================================================
 
     // UPDATE
-    @PutMapping("/update/{id}")
+    @RequestMapping(value = "/update/{id}", produces = "application/json", method = { RequestMethod.PUT })
     public ResponseEntity<Users> updateUser(@PathVariable(value = "id") Integer id,
             @Valid @RequestBody Users userDetails) throws NotFoundException {
         Users user = idRepo.findUserById(id);
