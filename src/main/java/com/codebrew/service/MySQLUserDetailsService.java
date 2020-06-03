@@ -19,7 +19,7 @@ public class MySQLUserDetailsService implements UserDetailsService {
     private UsersRepository usersRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String email) {
@@ -31,12 +31,16 @@ public class MySQLUserDetailsService implements UserDetailsService {
                 getAuthorities());
     }
 
+
+
     public UserDetails Save(Users newUser) {
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
         Users savedUser = usersRepository.save(newUser);
         return new org.springframework.security.core.userdetails.User(savedUser.getEmail(), savedUser.getPassword(),
                 getAuthorities());
     }
+
+
 
     private List<SimpleGrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authList = new ArrayList<>();

@@ -37,8 +37,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests().antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
-                .antMatchers(HttpMethod.GET, SIGN_UP_URL).permitAll().antMatchers(HttpMethod.GET, GET_ONE).permitAll()
+                .antMatchers(HttpMethod.GET, SIGN_UP_URL).permitAll()
+
+                .antMatchers(HttpMethod.GET, GET_ONE).permitAll().antMatchers(HttpMethod.GET, GET_ALL).permitAll()
                 .antMatchers(HttpMethod.POST, LOGIN).permitAll().antMatchers(HttpMethod.PUT, UPDATE).permitAll()
+                .antMatchers(HttpMethod.PUT, UPDATE_Password).permitAll()
+
+                .antMatchers(HttpMethod.POST, CREATE_EVENT).permitAll().antMatchers(HttpMethod.GET, GET_ALL_EVENTS)
+                .permitAll().antMatchers(HttpMethod.DELETE, DELETE_EVENT).permitAll()
+                .antMatchers(HttpMethod.PUT, UPDATE_EVENT).permitAll().antMatchers(HttpMethod.GET, GET_ONE_EVENT)
+                .permitAll().antMatchers(HttpMethod.GET, GET_IMAGE).permitAll()
+                .antMatchers(HttpMethod.POST, UPLOAD_IMAGE).permitAll()
+
                 .anyRequest().authenticated().and().addFilter(new JWTAuthenticationFilter(authenticationManager()))
                 .addFilter(new JWTAuthorizationFilter(authenticationManager())).sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

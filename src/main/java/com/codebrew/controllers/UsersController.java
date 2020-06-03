@@ -15,17 +15,15 @@ import com.codebrew.service.MySQLUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/user")
 public class UsersController {
-
-    @Autowired
-    PasswordEncoder passwordEncoder;
 
     @Autowired
     private UsersRepository usersRepository;
@@ -45,37 +43,19 @@ public class UsersController {
     }
 
     // ===============================================================================================================================================================================================================
-    // login
+    // LOGIN WORKING
     @PostMapping("/login")
-    public ResponseEntity<Users> login(@RequestBody Users user) throws
-    UsernameNotFoundException {
-    System.out.println(user.toString());
-    Users temp = usersRepository.findByEmail(user.email);
-    // System.out.println(temp.toString());
-    // System.out.println(temp.password);
-    // System.out.println(user.password);
-    if (passwordEncoder.encode(temp.password).equals(user.password)) {
-    return ResponseEntity.status(200).body(temp);
-    } else {
-    return ResponseEntity.status(403).body(null);
+    public ResponseEntity<Users> login(@RequestBody Users user) throws UsernameNotFoundException {
+        Users temp = usersRepository.findByEmail(user.email);
+        System.out.println("user : " + user + "found");
+        if (BCrypt.checkpw(user.password, temp.password) == true) {
+            System.out.println("user Info: " + temp);
+            return ResponseEntity.status(200).body(temp);
+        } else {
+            return ResponseEntity.status(403).body(null);
+        }
     }
-    }
-    // login
-    // @PostMapping("/login")
-    // public UserDetails login(@RequestBody Users user) throws UsernameNotFoundException {
-    //     System.out.println(user.toString());
-    //     UserDetails temp = userService.loadUserByUsername(user.email);
-    //     if (temp.password.equals(user.password)) {
-    //         return temp;
-    //     } else
-    //     // if (temp.getPassword().equals(user.password)) {
-    //     //     return (UserDetails) ResponseEntity.status(200).body(temp);
-    //     // } else {
-    //     //     return (UserDetails) ResponseEntity.status(403).body(null);
-    //     // }
-    //     return null;
-    // }
-    // ===============================================================================================================================================================================================================
+    /////////////////////////////////////////////////////////////////
 
     // GET ONE for profile working
     @RequestMapping(value = "/{email}", produces = "application/json", method = { RequestMethod.GET })
@@ -83,7 +63,7 @@ public class UsersController {
         System.out.println(" found by email");
         return usersRepository.findByEmail(email);
     }
-    // ===============================================================================================================================================================================================================
+    // ////////////////////////////////////////////////////////////
 
     // GET ALL working
     @RequestMapping(produces = "application/json", method = { RequestMethod.GET })
@@ -93,8 +73,8 @@ public class UsersController {
         return foundUsers;
     }
 
-    // ===============================================================================================================================================================================================================
-    // UPDATE
+    // /////////////////////////////////////////////////////////////
+    // UPDATE DETAILS WORKING
     @RequestMapping(value = "/update/{id}", produces = "application/json", method = { RequestMethod.PUT })
     public ResponseEntity<Users> updateUser(@PathVariable(value = "id") Integer id,
             @Valid @RequestBody Users userDetails) throws NotFoundException {
@@ -111,10 +91,29 @@ public class UsersController {
             user.setZip(userDetails.getZip());
             user.setUsername(userDetails.getUsername());
             user.setEmail(userDetails.getEmail());
+            user.setAdmin(userDetails.getAdmin());
+            final Users updatedUser = idRepo.save(user);
+            System.out.println("updated " + updatedUser.getUsername());
+            return ResponseEntity.ok(updatedUser);
+
+        }
+
+    }
+
+    // UPDATE PASSWORD WORKING
+    @RequestMapping(value = "/update/password/{id}", produces = "application/json", method = { RequestMethod.PUT })
+    public ResponseEntity<UserDetails> updateUserPassword(
+            @PathVariable(value = "id") Integer id,
+            @Valid @RequestBody Users userDetails) throws NotFoundException {
+        Users user = idRepo.findUserById(id);
+
+        if (userDetails == null) {
+            return ResponseEntity.notFound().header("Message", "no user found with that Id").build();
+        } else {
             user.setPassword(userDetails.getPassword());
             user.setAdmin(userDetails.getAdmin());
 
-            final Users updatedUser = idRepo.save(user);
+            final UserDetails updatedUser = userService.Save(user);
             System.out.println("updated " + updatedUser.getUsername());
             return ResponseEntity.ok(updatedUser);
 
