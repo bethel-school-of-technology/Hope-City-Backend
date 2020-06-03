@@ -1,14 +1,16 @@
 package com.codebrew.models;
 
 import java.sql.Date;
-import java.sql.Time;
 import java.util.Objects;
+// import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+// import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -16,41 +18,56 @@ import javax.persistence.Table;
 public class Events {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Integer id;
-
+    public Long id;
+//dude
     @Column(nullable = false, unique = false)
+    public String hostName;
     public String eventName;
     public String eventInfo;
     public String eventAddress;
     public String eventCity;
     public String eventState;
     public int eventZip;
-    public Time eventTime;
+    public String eventStartTime;
+    public String eventEndTime;
     public Date eventDay;
+//justrandom
+    // @ManyToMany(mappedBy = "")
+    // Set<Users> userIdAttending;
+
+
 
     public Events() {
-        super();
     }
 
-    public Events(Integer id, String eventName, String eventInfo, String eventAddress, String eventCity,
-            String eventState, int eventZip, Time eventTime, Date eventDay) {
+    public Events(Long id, String hostName, String eventName, String eventInfo, String eventAddress, String eventCity, String eventState, int eventZip, String eventStartTime, String eventEndTime, Date eventDay) {
         this.id = id;
+        this.hostName = hostName;
         this.eventName = eventName;
         this.eventInfo = eventInfo;
         this.eventAddress = eventAddress;
         this.eventCity = eventCity;
         this.eventState = eventState;
         this.eventZip = eventZip;
-        this.eventTime = eventTime;
+        this.eventStartTime = eventStartTime;
+        this.eventEndTime = eventEndTime;
         this.eventDay = eventDay;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getHostName() {
+        return this.hostName;
+    }
+
+    public void setHostName(String hostName) {
+        this.hostName = hostName;
     }
 
     public String getEventName() {
@@ -101,12 +118,20 @@ public class Events {
         this.eventZip = eventZip;
     }
 
-    public Time getEventTime() {
-        return this.eventTime;
+    public String getEventStartTime() {
+        return this.eventStartTime;
     }
 
-    public void setEventTime(Time eventTime) {
-        this.eventTime = eventTime;
+    public void setEventStartTime(String eventStartTime) {
+        this.eventStartTime = eventStartTime;
+    }
+
+    public String getEventEndTime() {
+        return this.eventEndTime;
+    }
+
+    public void setEventEndTime(String eventEndTime) {
+        this.eventEndTime = eventEndTime;
     }
 
     public Date getEventDay() {
@@ -117,8 +142,13 @@ public class Events {
         this.eventDay = eventDay;
     }
 
-    public Events id(Integer id) {
+    public Events id(Long id) {
         this.id = id;
+        return this;
+    }
+
+    public Events hostName(String hostName) {
+        this.hostName = hostName;
         return this;
     }
 
@@ -152,8 +182,12 @@ public class Events {
         return this;
     }
 
-    public Events eventTime(Time eventTime) {
-        this.eventTime = eventTime;
+    public Events eventStartTime(String eventStartTime) {
+        this.eventStartTime = eventStartTime;
+        return this;
+    }
+    public Events eventEndTime(String eventEndTime) {
+        this.eventEndTime = eventEndTime;
         return this;
     }
 
@@ -170,24 +204,34 @@ public class Events {
             return false;
         }
         Events events = (Events) o;
-        return Objects.equals(id, events.id) && Objects.equals(eventName, events.eventName)
-                && Objects.equals(eventInfo, events.eventInfo) && Objects.equals(eventAddress, events.eventAddress)
-                && Objects.equals(eventCity, events.eventCity) && Objects.equals(eventState, events.eventState)
-                && eventZip == events.eventZip && Objects.equals(eventTime, events.eventTime)
-                && Objects.equals(eventDay, events.eventDay);
+        return Objects.equals(id, events.id) && Objects.equals(hostName, events.hostName)
+                && Objects.equals(eventName, events.eventName) && Objects.equals(eventInfo, events.eventInfo)
+                && Objects.equals(eventAddress, events.eventAddress) && Objects.equals(eventCity, events.eventCity)
+                && Objects.equals(eventState, events.eventState) && eventZip == events.eventZip
+                && Objects.equals(eventStartTime, events.eventStartTime) && Objects.equals(eventDay, events.eventDay);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, eventName, eventInfo, eventAddress, eventCity, eventState, eventZip, eventTime,
-                eventDay);
+        return Objects.hash(id, hostName, eventName, eventInfo, eventAddress, eventCity, eventState, eventZip,
+                eventStartTime, eventDay);
     }
 
     @Override
     public String toString() {
-        return "{" + " id='" + getId() + "'" + ", eventName='" + getEventName() + "'" + ", eventInfo='" + getEventInfo()
-                + "'" + ", eventAddress='" + getEventAddress() + "'" + ", eventCity='" + getEventCity() + "'"
-                + ", eventState='" + getEventState() + "'" + ", eventZip='" + getEventZip() + "'" + ", eventTime='"
-                + getEventTime() + "'" + ", eventDay='" + getEventDay() + "'" + "}";
+        return "{" +
+            " id='" + getId() + "'" +
+            ", hostName='" + getHostName() + "'" +
+            ", eventName='" + getEventName() + "'" +
+            ", eventInfo='" + getEventInfo() + "'" +
+            ", eventAddress='" + getEventAddress() + "'" +
+            ", eventCity='" + getEventCity() + "'" +
+            ", eventState='" + getEventState() + "'" +
+            ", eventZip='" + getEventZip() + "'" +
+            ", eventStartTime='" + getEventStartTime() + "'" +
+            ", eventEndTime='" + getEventEndTime() + "'" +
+            ", eventDay='" + getEventDay() + "'" +
+            "}";
     }
+    
 }
