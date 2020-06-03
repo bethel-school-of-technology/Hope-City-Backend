@@ -11,27 +11,38 @@ public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Integer id;
-    public String address;
+
+    @Column(nullable = true, unique = true)
+    public String firstName;
+    @Column(nullable = true, unique = true)
+    public String lastName;
+ 
     public String city;
     public String state;
     public int zip;
 
     @Column(nullable = false, unique = true)
     public String email;
+    @Column(nullable = true, unique = true)
+    public String username;
+    @Column(nullable = false, unique = false)
     public String password;
+
     public Boolean admin;
 
 
     public Users() {
     }
 
-    public Users(Integer id, String address, String city, String state, int zip, String email, String password, Boolean admin) {
+    public Users(Integer id, String firstName, String lastName, String city, String state, int zip, String email, String username, String password, Boolean admin) {
         this.id = id;
-        this.address = address;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.city = city;
         this.state = state;
         this.zip = zip;
         this.email = email;
+        this.username = username;
         this.password = password;
         this.admin = admin;
     }
@@ -44,12 +55,20 @@ public class Users {
         this.id = id;
     }
 
-    public String getAddress() {
-        return this.address;
+    public String getFirstName() {
+        return this.firstName;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return this.lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getCity() {
@@ -84,6 +103,14 @@ public class Users {
         this.email = email;
     }
 
+    public String getUsername() {
+        return this.username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getPassword() {
         return this.password;
     }
@@ -109,8 +136,13 @@ public class Users {
         return this;
     }
 
-    public Users address(String address) {
-        this.address = address;
+    public Users firstName(String firstName) {
+        this.firstName = firstName;
+        return this;
+    }
+
+    public Users lastName(String lastName) {
+        this.lastName = lastName;
         return this;
     }
 
@@ -134,6 +166,11 @@ public class Users {
         return this;
     }
 
+    public Users username(String username) {
+        this.username = username;
+        return this;
+    }
+
     public Users password(String password) {
         this.password = password;
         return this;
@@ -152,23 +189,25 @@ public class Users {
             return false;
         }
         Users users = (Users) o;
-        return Objects.equals(id, users.id) && Objects.equals(address, users.address) && Objects.equals(city, users.city) && Objects.equals(state, users.state) && zip == users.zip && Objects.equals(email, users.email) && Objects.equals(password, users.password) && Objects.equals(admin, users.admin);
+        return Objects.equals(id, users.id) && Objects.equals(firstName, users.firstName) && Objects.equals(lastName, users.lastName) && Objects.equals(city, users.city) && Objects.equals(state, users.state) && zip == users.zip && Objects.equals(email, users.email) && Objects.equals(username, users.username) && Objects.equals(password, users.password) && Objects.equals(admin, users.admin);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, address, city, state, zip, email, password, admin);
+        return Objects.hash(id, firstName, lastName, city, state, zip, email, username, password, admin);
     }
 
     @Override
     public String toString() {
         return "{" +
             " id='" + getId() + "'" +
-            ", address='" + getAddress() + "'" +
+            ", firstName='" + getFirstName() + "'" +
+            ", lastName='" + getLastName() + "'" +
             ", city='" + getCity() + "'" +
             ", state='" + getState() + "'" +
             ", zip='" + getZip() + "'" +
             ", email='" + getEmail() + "'" +
+            ", username='" + getUsername() + "'" +
             ", password='" + getPassword() + "'" +
             ", admin='" + isAdmin() + "'" +
             "}";

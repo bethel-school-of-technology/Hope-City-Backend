@@ -14,7 +14,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.*;
-import org.springframework.web.servlet.config.annotation.CorsRegistration;
+// import org.springframework.web.servlet.config.annotation.CorsRegistration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 import static com.codebrew.auth.AuthConstants.*;
@@ -36,17 +36,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors();
-        // .and().csrf().disable().authorizeRequests().antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
-        //         .anyRequest().authenticated().and().addFilter(new JWTAuthenticationFilter(authenticationManager()))
-        //         .addFilter(new JWTAuthorizationFilter(authenticationManager())).sessionManagement()
-        //         .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.cors().and().csrf().disable()
+                .authorizeRequests()
+                .antMatchers(HttpMethod.POST, SIGN_UP_URL)
+                .permitAll()
+                .antMatchers(HttpMethod.GET, SIGN_UP_URL).permitAll()
+                .anyRequest().authenticated().and().addFilter(new JWTAuthenticationFilter(authenticationManager()))
+                .addFilter(new JWTAuthorizationFilter(authenticationManager())).sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
-    // public void addCorsMappings(CorsRegistry reg) {
-    //     reg.addMapping("/**/**").allowedOrigins("http://localhost:4200").allowedMethods("POST", "PUT", "GET", "OPTIONS").allowedHeaders(
-    //     "Origin", "X-REquested-With", "Content-Type", "Accept", "Authorization");
-    // }
+    public void addCorsMappings(CorsRegistry reg) {
+        reg.addMapping("/**/**").allowedOrigins("http://localhost:4200").allowedMethods("POST", "PUT", "GET", "OPTIONS")
+                .allowedHeaders("Origin", "X-REquested-With", "Content-Type", "Accept", "Authorization");
+    }
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
@@ -54,8 +57,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         corsConfig.applyPermitDefaultValues();
         corsConfig.setAllowedOrigins(Arrays.asList("/**"));
         corsConfig.setAllowedHeaders(Arrays.asList("POST", "GET", "PUT", "OPTIONS", "DELETE"));
-        corsConfig.setAllowedMethods(Arrays.asList("Authorization", "Accept", "Content-Type", "X-REquested-With", "Origin"));
-        // corsConfig.setExposedHeaders(Arrays.asList("Authorization", "Accept", "Content-Type", "X-REquested-With", "Origin"));
+        corsConfig.setAllowedMethods(
+                Arrays.asList("Authorization", "Accept", "Content-Type", "X-REquested-With", "Origin"));
+        // corsConfig.setExposedHeaders(Arrays.asList("Authorization", "Accept",
+        // "Content-Type", "X-REquested-With", "Origin"));
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfig);
         return source;

@@ -1,79 +1,87 @@
 package com.codebrew.controllers;
 
+import java.io.IOException;
 import java.util.*;
 
-// import javax.validation.Valid;
+import javax.validation.Valid;
 
 // import javax.validation.Valid;
-
 import com.codebrew.models.*;
+// import com.codebrew.repository.UserIdRepository;
+import com.codebrew.repository.UserIdRepository;
 import com.codebrew.repository.UsersRepository;
+import com.codebrew.service.MySQLUserDetailsService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/user")
 public class UsersController {
 
     @Autowired
     private UsersRepository usersRepository;
 
-    // CREATE ONE
-    @PostMapping("/register")
-    public ResponseEntity<Users> newUser(@RequestBody Users user) {
+    @Autowired
+    private UserIdRepository idRepo;
+
+    @Autowired
+    MySQLUserDetailsService userService;
+
+    // ===============================================================================================================================================================================================================
+    // CREATE ONE working
+    @PostMapping()
+    public ResponseEntity<Users> newUser(@RequestBody Users user) throws IOException {
         Users newUser = usersRepository.save(user);
+        System.out.println("new user added" + user);
         return ResponseEntity.ok(newUser);
     }
 
-    // // UPDATE ONE
-    // @PutMapping("/update/{email}")
-    // public ResponseEntity<Users> updateUser(@PathVariable(value = "email") String
-    // email,
-    // @Valid @RequestBody Users user) {
-
-    // Users foundUser = usersRepository.findByEmail(email);
-
-    // if (foundUser == null) {
-    // return ResponseEntity.notFound().header("Message", "invalid
-    // request").build();
-    // } else {
-    // foundUser.setAddress(foundUser.getAddress());
-    // foundUser.setCity(foundUser.getCity());
-    // foundUser.setState(foundUser.getState());
-    // foundUser.setZip(foundUser.getZip());
-    // usersRepository.save(foundUser);
-    // }
-    // return ResponseEntity.ok(foundUser);
-    // }
-
-    // GET ONE for profile
+    // ===============================================================================================================================================================================================================
+    // GET ONE for profile working
     @GetMapping("/{email}")
-    public Users findUser(@PathVariable(value = "email") String email) {
+    public Users findUser(@PathVariable(value = "email") String email) throws NotFoundException {
+        System.out.println(" found by email");
         return usersRepository.findByEmail(email);
     }
+    // ===============================================================================================================================================================================================================
 
     // login
     @PostMapping("/login")
-    public ResponseEntity<Users> login(@RequestBody Users user) {
-
+    public ResponseEntity<Users> login(@RequestBody Users user) throws NotFoundException {
         System.out.println(user.toString());
-        return ResponseEntity.status(200).body(usersRepository.findByEmail(user.email));
+        Users temp = usersRepository.findByEmail(user.email);
+        // System.out.println(temp.toString());
+        // System.out.println(temp.password);
+        // System.out.println(user.password);
+        if (temp.password.equals(user.password)) {
+            return ResponseEntity.status(200).body(temp);
+        } else {
+            return ResponseEntity.status(403).body(null);
+        }
     }
+    // ===============================================================================================================================================================================================================
 
-    // GET ALL
-    @GetMapping()
-    public List<Users> getUsers() {
+    // GET ALL working
+    @RequestMapping(
+        value = "/getall",
+        produces = "application/json",
+        method = {RequestMethod.GET}
+    )
+    public List<Users> getUsers() throws IOException {
         List<Users> foundUsers = usersRepository.findAll();
+        System.out.println("get all called" + foundUsers);
         return foundUsers;
     }
+    // ===============================================================================================================================================================================================================
 
-    // DELETE ONE
-    @DeleteMapping("/delete/{email}")
-    public ResponseEntity<Users> deleteUsers(@PathVariable(value = "email") String email) {
+    // DELETE ONE working
+    @DeleteMapping("/{email}")
+    public ResponseEntity<Users> deleteUsers(@PathVariable(value = "email") String email) throws NotFoundException {
         Users foundUsers = usersRepository.findByEmail(email);
 
         if (foundUsers == null) {
@@ -81,7 +89,36 @@ public class UsersController {
         } else {
             usersRepository.delete(foundUsers);
         }
+        System.out.println("user deleted");
         return ResponseEntity.ok().build();
     }
+    // ===============================================================================================================================================================================================================
 
+    // UPDATE
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Users> updateUser(@PathVariable(value = "id") Integer id,
+            @Valid @RequestBody Users userDetails) throws NotFoundException {
+        Users user = idRepo.findUserById(id);
+
+        if (userDetails == null) {
+            return ResponseEntity.notFound().header("Message", "no user found with that Id").build();
+        } else {
+
+            user.setFirstName(userDetails.getFirstName());
+            user.setLastName(userDetails.getLastName());
+            user.setCity(userDetails.getCity());
+            user.setState(userDetails.getState());
+            user.setZip(userDetails.getZip());
+            user.setUsername(userDetails.getUsername());
+            user.setEmail(userDetails.getEmail());
+            user.setPassword(userDetails.getPassword());
+            user.setAdmin(userDetails.getAdmin());
+
+            final Users updatedUser = idRepo.save(user);
+            System.out.println("updated " + updatedUser.getUsername());
+            return ResponseEntity.ok(updatedUser);
+
+        }
+
+    }
 }
