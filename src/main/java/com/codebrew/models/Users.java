@@ -1,7 +1,6 @@
 package com.codebrew.models;
 
 import java.util.Objects;
-// import java.util.Set;
 
 import javax.persistence.*;
 
@@ -12,36 +11,38 @@ public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Integer id;
+
+    @Column(nullable = true, unique = true)
+    public String firstName;
+    @Column(nullable = true, unique = true)
+    public String lastName;
+ 
     public String city;
     public String state;
-    public String firstName;
-    public String lastName;
     public int zip;
 
     @Column(nullable = false, unique = true)
     public String email;
+    @Column(nullable = true, unique = true)
+    public String username;
+    @Column(nullable = false, unique = false)
     public String password;
+
     public Boolean admin;
-
-    // to apply attending to
-    // @ManyToMany
-    // @JoinTable(name = "attending", joinColumns = @JoinColumn(name = "id"),
-    // inverseJoinColumns = @JoinColumn(name = "id"))
-    // Set<Events> attending;
-
 
 
     public Users() {
     }
 
-    public Users(Integer id, String city, String state, String firstName, String lastName, int zip, String email, String password, Boolean admin) {
+    public Users(Integer id, String firstName, String lastName, String city, String state, int zip, String email, String username, String password, Boolean admin) {
         this.id = id;
-        this.city = city;
-        this.state = state;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.city = city;
+        this.state = state;
         this.zip = zip;
         this.email = email;
+        this.username = username;
         this.password = password;
         this.admin = admin;
     }
@@ -52,22 +53,6 @@ public class Users {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getCity() {
-        return this.city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getState() {
-        return this.state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
     }
 
     public String getFirstName() {
@@ -86,6 +71,22 @@ public class Users {
         this.lastName = lastName;
     }
 
+    public String getCity() {
+        return this.city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return this.state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
     public int getZip() {
         return this.zip;
     }
@@ -100,6 +101,14 @@ public class Users {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getUsername() {
+        return this.username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -127,16 +136,6 @@ public class Users {
         return this;
     }
 
-    public Users city(String city) {
-        this.city = city;
-        return this;
-    }
-
-    public Users state(String state) {
-        this.state = state;
-        return this;
-    }
-
     public Users firstName(String firstName) {
         this.firstName = firstName;
         return this;
@@ -147,6 +146,16 @@ public class Users {
         return this;
     }
 
+    public Users city(String city) {
+        this.city = city;
+        return this;
+    }
+
+    public Users state(String state) {
+        this.state = state;
+        return this;
+    }
+
     public Users zip(int zip) {
         this.zip = zip;
         return this;
@@ -154,6 +163,11 @@ public class Users {
 
     public Users email(String email) {
         this.email = email;
+        return this;
+    }
+
+    public Users username(String username) {
+        this.username = username;
         return this;
     }
 
@@ -175,27 +189,28 @@ public class Users {
             return false;
         }
         Users users = (Users) o;
-        return Objects.equals(id, users.id) && Objects.equals(city, users.city) && Objects.equals(state, users.state) && Objects.equals(firstName, users.firstName) && Objects.equals(lastName, users.lastName) && zip == users.zip && Objects.equals(email, users.email) && Objects.equals(password, users.password) && Objects.equals(admin, users.admin);
+        return Objects.equals(id, users.id) && Objects.equals(firstName, users.firstName) && Objects.equals(lastName, users.lastName) && Objects.equals(city, users.city) && Objects.equals(state, users.state) && zip == users.zip && Objects.equals(email, users.email) && Objects.equals(username, users.username) && Objects.equals(password, users.password) && Objects.equals(admin, users.admin);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, city, state, firstName, lastName, zip, email, password, admin);
+        return Objects.hash(id, firstName, lastName, city, state, zip, email, username, password, admin);
     }
 
     @Override
     public String toString() {
         return "{" +
             " id='" + getId() + "'" +
-            ", city='" + getCity() + "'" +
-            ", state='" + getState() + "'" +
             ", firstName='" + getFirstName() + "'" +
             ", lastName='" + getLastName() + "'" +
+            ", city='" + getCity() + "'" +
+            ", state='" + getState() + "'" +
             ", zip='" + getZip() + "'" +
             ", email='" + getEmail() + "'" +
+            ", username='" + getUsername() + "'" +
             ", password='" + getPassword() + "'" +
             ", admin='" + isAdmin() + "'" +
             "}";
     }
-
+    
 }
