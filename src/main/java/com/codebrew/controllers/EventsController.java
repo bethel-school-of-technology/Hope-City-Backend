@@ -42,6 +42,7 @@ public class EventsController {
         if (foundEvent == null) {
             return ResponseEntity.notFound().header("Message", "Nothing found with that id").build();
         }
+        System.out.println("got event id");
         return ResponseEntity.ok(foundEvent);
     }
 
@@ -50,6 +51,7 @@ public class EventsController {
 
     public ResponseEntity<Events> postEvents(@RequestBody Events events) {
         Events createdEvents = eventsRepository.save(events);
+        System.out.println("event created");
         return ResponseEntity.ok(createdEvents);
     }
 
@@ -65,6 +67,7 @@ public class EventsController {
         } else {
             eventsRepository.delete(foundEvent);
         }
+        System.out.println("event deleted");
         return ResponseEntity.ok().build();
     }
 
@@ -89,7 +92,8 @@ public class EventsController {
             event.setEventCity(eventDetails.getEventCity());
             event.setEventState(eventDetails.getEventState());
             event.setEventZip(eventDetails.getEventZip());
-            event.setEventTime(eventDetails.getEventTime());
+            event.setEventStartTime(eventDetails.getEventStartTime());
+            event.setEventEndTime(eventDetails.getEventEndTime());
             event.setEventDay(eventDetails.getEventDay());
 
             final Events updatedEvent = eventsRepository.save(event);
