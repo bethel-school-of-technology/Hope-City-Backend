@@ -2,7 +2,9 @@ package com.codebrew.controllers;
 
 import javax.validation.Valid;
 
+import com.codebrew.models.Events;
 import com.codebrew.models.UserEvent;
+import com.codebrew.models.Users;
 import com.codebrew.repository.UserEventRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,31 +23,48 @@ import javassist.NotFoundException;
 @RestController
 @RequestMapping("/userevent")
 public class UserEventController {
+    private Users user;
+    private Events event;
     @Autowired
     UserEventRepo userEventRepo;
 
     @PutMapping("/attending")
-    public ResponseEntity<UserEvent> updateUserEvent(@PathVariable(value = "id") Long id,
+    public UserEvent updateUserEvent(@PathVariable(value = "id") Long id,
             @Valid @RequestBody UserEvent uEDetails) throws NotFoundException {
-        if (uEDetails == null) {
-            return ResponseEntity.notFound().header("Message", "no user found with that Id").build();
+       if (uEDetails == null) {
+            return UserEvent.notFound().header("Message", "no userEvent found with that Id").build();
         } else {
 
             UserEvent userEvent = new UserEvent();
 
-            userEvent.setUser(uEDetails.getUser(user);
-            userEvent.setEvent(uEDetails.getEvent(event));
+            userEvent.setUser(uEDetails.getUser(user));
+            userEvent.setEvents(uEDetails.getEvent(event));
 
             final UserEvent updatedAttending = userEventRepo.save(userEvent);
             System.out.println("attending updated");
-            return ResponseEntity.ok().build();
+            return userEvent;
 
         }
+    }
+}
+  /*  }
+
+        @DeleteMapping("/attending/delete/{id}") ResponseEntity<Events> deleteUserEventById(@PathVariable(value = "id") Integer id) {
+            UserEvent foundUserEvent = UserEventRepo.findUserEventById(id);
+    
+            if (foundUserEvent == null) {
+                return ResponseEntity.notFound().header("message", "UserEvent Not Found").build();
+    
+            } else {
+                UserEventRepo.delete(foundUserEvent);
+            }
+            return ResponseEntity.ok().build();*/
+        
+         
 
         // @DeleteMapping("/attending/delete{id}")
         // UserEvent userEvent = new UserEvent();
         // userEvent.setId(id);
         // session.delete(userEvent);
 
-    }
-}
+    

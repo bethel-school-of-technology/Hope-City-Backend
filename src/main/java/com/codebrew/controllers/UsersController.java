@@ -6,7 +6,6 @@ import java.util.*;
 import javax.validation.Valid;
 
 import com.codebrew.models.*;
-import com.codebrew.repository.EventsRepository;
 import com.codebrew.repository.UsersIdRepository;
 import com.codebrew.repository.UsersRepository;
 

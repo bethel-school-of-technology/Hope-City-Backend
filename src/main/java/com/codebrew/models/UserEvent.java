@@ -47,8 +47,23 @@ public class UserEvent {
         this.users = users;
     }
 
-    public void setEvents(Events events) {
-        this.events = events;
+    public void setEvents(Object object) {
+        this.events = (Events) object;
     }
+
+
+	public Users getUser(Users user) {
+		return null;
+	}
+
+
+	public Object getEvent(Events event) {
+		return null;
+	}
+
+
+	public static Object notFound() {
+		return null;
+	}
 
 }
