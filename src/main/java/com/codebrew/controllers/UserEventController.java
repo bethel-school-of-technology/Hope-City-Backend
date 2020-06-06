@@ -8,9 +8,8 @@ import com.codebrew.models.Users;
 import com.codebrew.repository.UserEventRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
+//import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,15 +31,17 @@ public class UserEventController {
     public UserEvent updateUserEvent(@PathVariable(value = "id") Long id,
             @Valid @RequestBody UserEvent uEDetails) throws NotFoundException {
        if (uEDetails == null) {
-            return UserEvent.notFound().header("Message", "no userEvent found with that Id").build();
-        } else {
+            return ((UserEvent) ((UserEvent) UserEvent.notFound()).header("Message", "no userEvent found with that Id"))
+                    .build();
+        }
+         else {
 
             UserEvent userEvent = new UserEvent();
 
             userEvent.setUser(uEDetails.getUser(user));
             userEvent.setEvents(uEDetails.getEvent(event));
 
-            final UserEvent updatedAttending = userEventRepo.save(userEvent);
+            userEventRepo.save(userEvent);
             System.out.println("attending updated");
             return userEvent;
 

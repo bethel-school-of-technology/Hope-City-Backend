@@ -66,4 +66,14 @@ public class UserEvent {
 		return null;
 	}
 
+
+	public Object header(String string, String string2) {
+		return null;
+	}
+
+
+	public UserEvent build() {
+		return null;
+	}
+
 }
