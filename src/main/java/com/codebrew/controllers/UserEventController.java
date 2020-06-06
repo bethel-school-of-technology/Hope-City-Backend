@@ -33,7 +33,8 @@ public class UserEventController {
        if (uEDetails == null) {
             return ((UserEvent) ((UserEvent) UserEvent.notFound()).header("Message", "no userEvent found with that Id"))
                     .build();
-        } else {
+        }
+         else {
 
             UserEvent userEvent = new UserEvent();
 
