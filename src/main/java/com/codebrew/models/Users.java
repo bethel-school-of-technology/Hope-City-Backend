@@ -12,21 +12,21 @@ public class Users {
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Integer id;
 
-    @Column(nullable = true, unique = true)
+    @Column(nullable = true, unique = false)
     public String firstName;
-    @Column(nullable = true, unique = true)
+    @Column(nullable = true, unique = false)
     public String lastName;
- 
-    public String city;
-    public String state;
-    public int zip;
-
     @Column(nullable = false, unique = true)
     public String email;
     @Column(nullable = true, unique = true)
     public String username;
     @Column(nullable = false, unique = false)
     public String password;
+ 
+    public String city;
+    public String state;
+    public int zip;
+
 
     public Boolean admin;
 

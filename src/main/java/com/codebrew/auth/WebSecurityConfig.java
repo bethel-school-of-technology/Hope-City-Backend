@@ -1,7 +1,5 @@
 package com.codebrew.auth;
 
-import java.util.Arrays;
-
 import com.codebrew.service.MySQLUserDetailsService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.*;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.cors.*;
-// import org.springframework.web.servlet.config.annotation.CorsRegistration;
+
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 import static com.codebrew.auth.AuthConstants.*;
@@ -60,18 +57,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .allowedHeaders("Origin", "X-REquested-With", "Content-Type", "Accept", "Authorization");
     }
 
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration corsConfig = new CorsConfiguration();
-        corsConfig.applyPermitDefaultValues();
-        corsConfig.setAllowedOrigins(Arrays.asList("/**"));
-        corsConfig.setAllowedHeaders(Arrays.asList("POST", "GET", "PUT", "OPTIONS", "DELETE"));
-        corsConfig.setAllowedMethods(
-                Arrays.asList("Authorization", "Accept", "Content-Type", "X-REquested-With", "Origin"));
-        // corsConfig.setExposedHeaders(Arrays.asList("Authorization", "Accept",
-        // "Content-Type", "X-REquested-With", "Origin"));
-        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfig);
-        return source;
-    }
+    // @Bean
+    // CorsConfigurationSource corsConfigurationSource() {
+    //     CorsConfiguration corsConfig = new CorsConfiguration();
+    //     corsConfig.applyPermitDefaultValues();
+    //     corsConfig.setAllowedOrigins(Arrays.asList("/**"));
+    //     corsConfig.setAllowedHeaders(Arrays.asList("POST", "GET", "PUT", "OPTIONS", "DELETE"));
+    //     corsConfig.setAllowedMethods(
+    //             Arrays.asList("Authorization", "Accept", "Content-Type", "X-REquested-With", "Origin"));
+    //     // corsConfig.setExposedHeaders(Arrays.asList("Authorization", "Accept",
+    //     // "Content-Type", "X-REquested-With", "Origin"));
+    //     final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    //     source.registerCorsConfiguration("/**", corsConfig);
+    //     return source;
+    // }
 }
