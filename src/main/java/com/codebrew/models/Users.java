@@ -126,6 +126,7 @@ public class Users {
     public Boolean getAdmin() {
         return this.admin;
     }
+ 
 
     public void setAdmin(Boolean admin) {
         this.admin = admin;

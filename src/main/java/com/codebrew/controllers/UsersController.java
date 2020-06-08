@@ -55,6 +55,7 @@ public class UsersController {
             return ResponseEntity.status(403).body(null);
         }
     }
+
     /////////////////////////////////////////////////////////////////
 
     // GET ONE for profile working
@@ -114,28 +115,43 @@ public class UsersController {
             user.setAdmin(userDetails.getAdmin());
 
             final UserDetails updatedUser = userService.Save(user);
+            System.out.println("updated " + updatedUser);
+            return ResponseEntity.ok(updatedUser);
+
+        }
+    }
+
+    // //////////////////////////////////////////////////////////////////////////
+    // UPDATE ADMIN STATUS
+    @RequestMapping(value = "/role/{id}", produces = "application/json", method = { RequestMethod.PUT })
+    
+    public ResponseEntity<Users> updateAdmin(
+            @PathVariable(value = "id") Integer id,
+            @Valid @RequestBody Users userDetails) throws NotFoundException {
+        Users user = idRepo.findUserById(id);
+
+        if (userDetails == null) {
+            return ResponseEntity.notFound().header("Message", "no user found with that Id").build();
+        } else {
+            user.setAdmin(true);
+            final Users updatedUser = usersRepository.save(user);
             System.out.println("updated " + updatedUser.getUsername());
             return ResponseEntity.ok(updatedUser);
 
         }
-
     }
+    // DELETE ONE working
+    @DeleteMapping("/{email}")
+    public ResponseEntity<Users> deleteUsers(@PathVariable(value = "email")
+    String email) throws NotFoundException {
+    Users foundUsers = usersRepository.findByEmail(email);
 
-    // // DELETE ONE working
-    // @DeleteMapping("/{email}")
-    // public ResponseEntity<Users> deleteUsers(@PathVariable(value = "email")
-    // String email) throws NotFoundException {
-    // Users foundUsers = usersRepository.findByEmail(email);
-
-    // if (foundUsers == null) {
-    // return ResponseEntity.notFound().header("Message", "Nothing found with that
-    // id").build();
-    // } else {
-    // usersRepository.delete(foundUsers);
-    // }
-    // System.out.println("user deleted");
-    // return ResponseEntity.ok().build();
-    // }
-    // ===============================================================================================================================================================================================================
-
+    if (foundUsers == null) {
+    return ResponseEntity.notFound().header("Message", "Nothing found with that id").build();
+    } else {
+    usersRepository.delete(foundUsers);
+    }
+    System.out.println("user deleted");
+    return ResponseEntity.ok().build();
+    }
 }
