@@ -1,6 +1,8 @@
 package com.codebrew.controllers;
 
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 
 import com.codebrew.models.ImageModel;
 import com.codebrew.repository.ImageRepository;
@@ -13,7 +15,6 @@ import java.util.zip.Inflater;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.ResponseEntity.BodyBuilder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,24 +33,28 @@ public class ImageUploadController {
 
     // UPLOAD IMAGE
     @PostMapping("/upload")
-    public BodyBuilder uploadImage(@RequestParam("imageFile") MultipartFile file) throws IOException {
+    public ResponseEntity<Object> uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
         System.out.println("Original Image Byte Size - " + file.getBytes().length);
         ImageModel img = new ImageModel(file.getOriginalFilename(), file.getContentType(),
                 compressBytes(file.getBytes()));
 
         imageRepository.save(img);
 
-        return ResponseEntity.status(HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
     // GET IMAGE
-    @GetMapping(path = { "/get/{imageName}" })
-    public ImageModel getImage(@PathVariable("imageName") String imageName) throws IOException {
-        final Optional<ImageModel> retrievedImage = imageRepository.findByName(imageName);
+    @GetMapping( "/get/{imageName}")
+    public ImageModel getImage(@PathVariable("imageName") String imageName, Long id ) throws IOException {
+        String urlDecode = URLDecoder.decode(imageName, StandardCharsets.UTF_8.toString());
+        System.out.println(urlDecode + "line 50");
+        final Optional<ImageModel> retrievedImage = imageRepository.findByName(urlDecode);
+        System.out.println(urlDecode + "line 52");
         ImageModel img = new ImageModel(retrievedImage.get().getName(), retrievedImage.get().getType(),
                 decompressBytes(retrievedImage.get().getPicByte()));
+                img.setId(retrievedImage.get().getId());
+                System.out.println(img);
         return img;
-
     }
 
 

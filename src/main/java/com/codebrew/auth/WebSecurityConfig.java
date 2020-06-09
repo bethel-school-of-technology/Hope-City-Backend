@@ -53,7 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     public void addCorsMappings(CorsRegistry reg) {
-        reg.addMapping("/**/**").allowedOrigins("http://localhost:4200").allowedMethods("POST", "PUT", "GET", "OPTIONS")
+        reg.addMapping("/**").allowedOrigins("http://localhost:4200").allowedMethods("POST", "PUT", "GET", "OPTIONS")
                 .allowedHeaders("Origin", "X-REquested-With", "Content-Type", "Accept", "Authorization");
     }
 
