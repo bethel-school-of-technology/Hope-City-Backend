@@ -15,6 +15,7 @@ import com.codebrew.service.MySQLUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -43,18 +44,31 @@ public class UsersController {
     }
 
     // ===============================================================================================================================================================================================================
-    // LOGIN WORKING
+    // LOGIN WORKING with Granted Authorities
     @PostMapping("/login")
-    public ResponseEntity<Users> login(@RequestBody Users user) throws UsernameNotFoundException {
-        Users temp = usersRepository.findByEmail(user.email);
+    public ResponseEntity<UserDetails> login(@RequestBody Users user) throws UsernameNotFoundException {
+        UserDetails temp = userService.loadUserByUsername(user.email);
         System.out.println("user : " + user + "found");
-        if (BCrypt.checkpw(user.password, temp.password) == true) {
+        if (BCrypt.checkpw(user.password, temp.getPassword()) == true) {
             System.out.println("user Info: " + temp);
-            return ResponseEntity.status(200).body(temp);
+            return ResponseEntity.ok(temp);
         } else {
+            System.out.println("Invalid email or password, unauthorized");
             return ResponseEntity.status(403).body(null);
         }
     }
+    // // LOGIN WORKING as Users.  returns full users information.
+    // @PostMapping("/login")
+    // public ResponseEntity<Users> login(@RequestBody Users user) throws UsernameNotFoundException {
+    //     Users temp = usersRepository.findByEmail(user.email);
+    //     System.out.println("user : " + user + "found");
+    //     if (BCrypt.checkpw(user.password, temp.password) == true) {
+    //         System.out.println("user Info: " + temp);
+    //         return ResponseEntity.status(200).body(temp);
+    //     } else {
+    //         return ResponseEntity.status(403).body(null);
+    //     }
+    // }
 
     /////////////////////////////////////////////////////////////////
 
