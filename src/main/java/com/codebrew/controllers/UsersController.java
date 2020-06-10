@@ -5,6 +5,7 @@ import java.util.*;
 
 import javax.validation.Valid;
 
+import com.codebrew.auth.JwtUtil;
 // import javax.validation.Valid;
 import com.codebrew.models.*;
 // import com.codebrew.repository.UserIdRepository;
@@ -15,7 +16,9 @@ import com.codebrew.service.MySQLUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.ResponseEntity;
-
+// import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -44,14 +47,26 @@ public class UsersController {
     }
 
     // ===============================================================================================================================================================================================================
-    // LOGIN WORKING with Granted Authorities
+    @Autowired
+    private JwtUtil jwtTokenUtil;
+
+    // @Autowired
+    // private AuthenticationManager authenticationManager;
+    // LOGIN WORKING with Granted Authorities & Token
     @PostMapping("/login")
-    public ResponseEntity<UserDetails> login(@RequestBody Users user) throws UsernameNotFoundException {
+    public ResponseEntity<AuthenticationResponse> login(@RequestBody Users user) throws Exception {
+        try{
+            new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword());
+        } catch (BadCredentialsException e) {
+            throw new Exception("Incorrect email or password", e);
+        }
         UserDetails temp = userService.loadUserByUsername(user.email);
         System.out.println("user : " + user + "found");
+
         if (BCrypt.checkpw(user.password, temp.getPassword()) == true) {
             System.out.println("user Info: " + temp);
-            return ResponseEntity.ok(temp);
+            final String jwt = jwtTokenUtil.generateToken(user);
+            return ResponseEntity.ok(new AuthenticationResponse(jwt));
         } else {
             System.out.println("Invalid email or password, unauthorized");
             return ResponseEntity.status(403).body(null);

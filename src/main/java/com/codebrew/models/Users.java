@@ -1,12 +1,21 @@
 package com.codebrew.models;
 
+import java.util.Collection;
 import java.util.Objects;
 
 import javax.persistence.*;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 @Entity
 @Table(name = "users")
-public class Users {
+public class Users implements UserDetails {
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,25 +25,24 @@ public class Users {
     public String firstName;
     @Column(nullable = true, unique = false)
     public String lastName;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = false)
     public String email;
     @Column(nullable = true, unique = true)
     public String username;
     @Column(nullable = false, unique = false)
     public String password;
- 
+
     public String city;
     public String state;
     public int zip;
 
-
     public Boolean admin;
-
 
     public Users() {
     }
 
-    public Users(Integer id, String firstName, String lastName, String city, String state, int zip, String email, String username, String password, Boolean admin) {
+    public Users(Integer id, String firstName, String lastName, String city, String state, int zip, String email,
+            String username, String password, Boolean admin) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -126,7 +134,6 @@ public class Users {
     public Boolean getAdmin() {
         return this.admin;
     }
- 
 
     public void setAdmin(Boolean admin) {
         this.admin = admin;
@@ -190,7 +197,11 @@ public class Users {
             return false;
         }
         Users users = (Users) o;
-        return Objects.equals(id, users.id) && Objects.equals(firstName, users.firstName) && Objects.equals(lastName, users.lastName) && Objects.equals(city, users.city) && Objects.equals(state, users.state) && zip == users.zip && Objects.equals(email, users.email) && Objects.equals(username, users.username) && Objects.equals(password, users.password) && Objects.equals(admin, users.admin);
+        return Objects.equals(id, users.id) && Objects.equals(firstName, users.firstName)
+                && Objects.equals(lastName, users.lastName) && Objects.equals(city, users.city)
+                && Objects.equals(state, users.state) && zip == users.zip && Objects.equals(email, users.email)
+                && Objects.equals(username, users.username) && Objects.equals(password, users.password)
+                && Objects.equals(admin, users.admin);
     }
 
     @Override
@@ -200,18 +211,35 @@ public class Users {
 
     @Override
     public String toString() {
-        return "{" +
-            " id='" + getId() + "'" +
-            ", firstName='" + getFirstName() + "'" +
-            ", lastName='" + getLastName() + "'" +
-            ", city='" + getCity() + "'" +
-            ", state='" + getState() + "'" +
-            ", zip='" + getZip() + "'" +
-            ", email='" + getEmail() + "'" +
-            ", username='" + getUsername() + "'" +
-            ", password='" + getPassword() + "'" +
-            ", admin='" + isAdmin() + "'" +
-            "}";
+        return "{" + " id='" + getId() + "'" + ", firstName='" + getFirstName() + "'" + ", lastName='" + getLastName()
+                + "'" + ", city='" + getCity() + "'" + ", state='" + getState() + "'" + ", zip='" + getZip() + "'"
+                + ", email='" + getEmail() + "'" + ", username='" + getUsername() + "'" + ", password='" + getPassword()
+                + "'" + ", admin='" + isAdmin() + "'" + "}";
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+      return this.getAuthorities();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return this.isAccountNonExpired();
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return this.isAccountNonLocked();
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return this.isCredentialsNonExpired();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return this.isEnabled();
     }
     
 }
