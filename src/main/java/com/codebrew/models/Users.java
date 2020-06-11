@@ -25,17 +25,19 @@ public class Users implements UserDetails {
     public String firstName;
     @Column(nullable = true, unique = false)
     public String lastName;
-    @Column(nullable = false, unique = false)
+    @Column(nullable = false, unique = true)
     public String email;
     @Column(nullable = true, unique = true)
     public String username;
     @Column(nullable = false, unique = false)
     public String password;
-
+    @Column()
     public String city;
+    @Column()
     public String state;
+    @Column()
     public int zip;
-
+    @Column(columnDefinition = "boolean default false")
     public Boolean admin;
 
     public Users() {
