@@ -53,7 +53,7 @@ public class UsersController {
     // @Autowired
     // private AuthenticationManager authenticationManager;
     // LOGIN WORKING with Granted Authorities & Token
-    @PostMapping("/login")
+    @RequestMapping(value = "login", method = RequestMethod.POST)
     public ResponseEntity<AuthenticationResponse> login(@RequestBody Users user) throws Exception {
         try{
             new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword());
@@ -65,7 +65,7 @@ public class UsersController {
 
         if (BCrypt.checkpw(user.password, temp.getPassword()) == true) {
             System.out.println("user Info: " + temp);
-            final String jwt = jwtTokenUtil.generateToken(user);
+            final String jwt = jwtTokenUtil.generateToken(user);   
             return ResponseEntity.ok(new AuthenticationResponse(jwt));
         } else {
             System.out.println("Invalid email or password, unauthorized");
