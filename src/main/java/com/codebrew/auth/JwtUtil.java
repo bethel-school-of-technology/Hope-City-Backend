@@ -1,5 +1,6 @@
 package com.codebrew.auth;
 
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import io.jsonwebtoken.Claims;
@@ -49,10 +50,17 @@ public class JwtUtil {
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
         .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
                 .signWith(SignatureAlgorithm.HS256, SECRET).compact();
+                
     }
 
-    public Boolean validateToken(String token, Users user) {
+    public Boolean validateToken(String token, UserDetails user) {
         final String email = extractEmail(token);
-        return (email.equals(user.getEmail()) && !isTokenExpired(token));
+        return (email.equals(((Users) user).getEmail()) && !isTokenExpired(token));
     }
+    
+    // public Boolean validateToken(String token, Users user) {
+    //     final String email = extractEmail(token);
+    //     return (email.equals(user.getEmail()) && !isTokenExpired(token));
+    // }
+    
 }

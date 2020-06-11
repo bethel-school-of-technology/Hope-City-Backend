@@ -61,7 +61,7 @@ public class UsersController {
     // @Autowired
     // private AuthenticationManager authenticationManager;
     // LOGIN WORKING with Granted Authorities & Token
-    @PostMapping("/login")
+    @RequestMapping(value = "login", method = RequestMethod.POST)
     public ResponseEntity<AuthenticationResponse> login(@RequestBody Users user) throws Exception {
         try {
             new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
