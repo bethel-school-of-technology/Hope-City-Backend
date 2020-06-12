@@ -29,7 +29,7 @@ public class Users {
     @Column()
     public int zip;
     @Column(columnDefinition = "boolean default false")
-    public Boolean admin;
+    public Boolean admin = false;
 
     public Users() {
     }

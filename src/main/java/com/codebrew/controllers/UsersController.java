@@ -13,6 +13,7 @@ import com.codebrew.repository.UserIdRepository;
 import com.codebrew.repository.UsersRepository;
 import com.codebrew.service.MySQLUserDetailsService;
 
+import org.hibernate.DuplicateMappingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.ResponseEntity;
@@ -40,16 +41,16 @@ public class UsersController {
 
     // ENCODING PASSWORD WORKING
     @PostMapping()
-    public ResponseEntity<?> register(@RequestBody Users newUser) {
+    public ResponseEntity<?> register(@RequestBody Users newUser) throws DuplicateMappingException {
 
-        System.out.println("new user created" + newUser);
         if (usersRepository.findByEmail(newUser.email) == null) {
             userService.Save(newUser);
-            return ResponseEntity.ok(new AuthenticationResponse(jwtTokenUtil.generateToken(newUser),
-                    usersRepository.findByEmail(newUser.email))
-            // add error throw for unique email
-            );
+            // I removed the Token Generation from the registration endpoint.
+            System.out.println("new user created" + newUser);
+            return ResponseEntity.ok(usersRepository.findByEmail(newUser.email));
         } else {
+            
+            System.out.println("not able to register new user");
             return ResponseEntity.status(400).body(null);
         }
     }
@@ -63,16 +64,28 @@ public class UsersController {
     // LOGIN WORKING with Granted Authorities & Token
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public ResponseEntity<AuthenticationResponse> login(@RequestBody Users user) throws Exception {
+        // takes in email and password from JSON.
         try {
             new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
+            System.out.println("Creating token with email and password");
         } catch (BadCredentialsException e) {
+
+            System.out.println("bad credentials");
+
             throw new Exception("Incorrect email or password", e);
         }
+        System.out.println("valid credentials received");
+
         UserDetails temp = userService.loadUserByUsername(user.email);
+
         System.out.println("user : " + user + "found");
 
         if (BCrypt.checkpw(user.password, temp.getPassword()) == true) {
+
+            System.out.println("password authenticated");
+
             System.out.println("user Info: " + temp);
+            
             final String jwt = jwtTokenUtil.generateToken(user);
             return ResponseEntity.ok(new AuthenticationResponse(jwt, usersRepository.findByEmail(user.email)));
         } else {
