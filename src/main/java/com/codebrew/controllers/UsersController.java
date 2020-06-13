@@ -5,6 +5,7 @@ import java.util.*;
 
 import javax.validation.Valid;
 
+import com.codebrew.auth.JwtUtil;
 // import javax.validation.Valid;
 import com.codebrew.models.*;
 // import com.codebrew.repository.UserIdRepository;
@@ -12,10 +13,13 @@ import com.codebrew.repository.UserIdRepository;
 import com.codebrew.repository.UsersRepository;
 import com.codebrew.service.MySQLUserDetailsService;
 
+import org.hibernate.DuplicateMappingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.ResponseEntity;
-
+// import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -37,37 +41,70 @@ public class UsersController {
 
     // ENCODING PASSWORD WORKING
     @PostMapping()
-    public Users register(@RequestBody Users newUser) {
-        userService.Save(newUser);
-        System.out.println("new user created" + newUser);
-        return newUser;
+    public ResponseEntity<?> register(@RequestBody Users newUser) throws DuplicateMappingException {
+
+        if (usersRepository.findByEmail(newUser.email) == null) {
+            userService.Save(newUser);
+            // I removed the Token Generation from the registration endpoint.
+            System.out.println("new user created" + newUser);
+            return ResponseEntity.ok(usersRepository.findByEmail(newUser.email));
+        } else {
+            
+            System.out.println("not able to register new user");
+            return ResponseEntity.status(400).body(null);
+        }
     }
 
     // ===============================================================================================================================================================================================================
-    // LOGIN WORKING with Granted Authorities
-    @PostMapping("/login")
-    public ResponseEntity<UserDetails> login(@RequestBody Users user) throws UsernameNotFoundException {
+    @Autowired
+    private JwtUtil jwtTokenUtil;
+
+    // @Autowired
+    // private AuthenticationManager authenticationManager;
+    // LOGIN WORKING with Granted Authorities & Token
+    @RequestMapping(value = "login", method = RequestMethod.POST)
+    public ResponseEntity<AuthenticationResponse> login(@RequestBody Users user) throws Exception {
+        // takes in email and password from JSON.
+        try {
+            new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
+            System.out.println("Creating token with email and password");
+        } catch (BadCredentialsException e) {
+
+            System.out.println("bad credentials");
+
+            throw new Exception("Incorrect email or password", e);
+        }
+        System.out.println("valid credentials received");
+
         UserDetails temp = userService.loadUserByUsername(user.email);
+
         System.out.println("user : " + user + "found");
+
         if (BCrypt.checkpw(user.password, temp.getPassword()) == true) {
+
+            System.out.println("password authenticated");
+
             System.out.println("user Info: " + temp);
-            return ResponseEntity.ok(temp);
+            
+            final String jwt = jwtTokenUtil.generateToken(user);
+            return ResponseEntity.ok(new AuthenticationResponse(jwt, usersRepository.findByEmail(user.email)));
         } else {
             System.out.println("Invalid email or password, unauthorized");
             return ResponseEntity.status(403).body(null);
         }
     }
-    // // LOGIN WORKING as Users.  returns full users information.
+    // // LOGIN WORKING as Users. returns full users information.
     // @PostMapping("/login")
-    // public ResponseEntity<Users> login(@RequestBody Users user) throws UsernameNotFoundException {
-    //     Users temp = usersRepository.findByEmail(user.email);
-    //     System.out.println("user : " + user + "found");
-    //     if (BCrypt.checkpw(user.password, temp.password) == true) {
-    //         System.out.println("user Info: " + temp);
-    //         return ResponseEntity.status(200).body(temp);
-    //     } else {
-    //         return ResponseEntity.status(403).body(null);
-    //     }
+    // public ResponseEntity<Users> login(@RequestBody Users user) throws
+    // UsernameNotFoundException {
+    // Users temp = usersRepository.findByEmail(user.email);
+    // System.out.println("user : " + user + "found");
+    // if (BCrypt.checkpw(user.password, temp.password) == true) {
+    // System.out.println("user Info: " + temp);
+    // return ResponseEntity.status(200).body(temp);
+    // } else {
+    // return ResponseEntity.status(403).body(null);
+    // }
     // }
 
     /////////////////////////////////////////////////////////////////
@@ -117,8 +154,7 @@ public class UsersController {
 
     // UPDATE PASSWORD WORKING
     @RequestMapping(value = "/update/password/{id}", produces = "application/json", method = { RequestMethod.PUT })
-    public ResponseEntity<UserDetails> updateUserPassword(
-            @PathVariable(value = "id") Integer id,
+    public ResponseEntity<UserDetails> updateUserPassword(@PathVariable(value = "id") Integer id,
             @Valid @RequestBody Users userDetails) throws NotFoundException {
         Users user = idRepo.findUserById(id);
 
@@ -138,9 +174,8 @@ public class UsersController {
     // //////////////////////////////////////////////////////////////////////////
     // UPDATE ADMIN STATUS
     @RequestMapping(value = "/role/{id}", produces = "application/json", method = { RequestMethod.PUT })
-    
-    public ResponseEntity<Users> updateAdmin(
-            @PathVariable(value = "id") Integer id,
+
+    public ResponseEntity<Users> updateAdmin(@PathVariable(value = "id") Integer id,
             @Valid @RequestBody Users userDetails) throws NotFoundException {
         Users user = idRepo.findUserById(id);
 
@@ -154,18 +189,18 @@ public class UsersController {
 
         }
     }
+
     // DELETE ONE working
     @DeleteMapping("/{email}")
-    public ResponseEntity<Users> deleteUsers(@PathVariable(value = "email")
-    String email) throws NotFoundException {
-    Users foundUsers = usersRepository.findByEmail(email);
+    public ResponseEntity<Users> deleteUsers(@PathVariable(value = "email") String email) throws NotFoundException {
+        Users foundUsers = usersRepository.findByEmail(email);
 
-    if (foundUsers == null) {
-    return ResponseEntity.notFound().header("Message", "Nothing found with that id").build();
-    } else {
-    usersRepository.delete(foundUsers);
-    }
-    System.out.println("user deleted");
-    return ResponseEntity.ok().build();
+        if (foundUsers == null) {
+            return ResponseEntity.notFound().header("Message", "Nothing found with that id").build();
+        } else {
+            usersRepository.delete(foundUsers);
+        }
+        System.out.println("user deleted");
+        return ResponseEntity.ok().build();
     }
 }

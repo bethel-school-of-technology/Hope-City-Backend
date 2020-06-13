@@ -1,14 +1,15 @@
 package com.codebrew.models;
 
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.*;
 
+
 @Entity
 @Table(name = "users")
 public class Users {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,13 +25,15 @@ public class Users {
     public String username;
     @Column(nullable = false, unique = false)
     public String password;
- 
+    @Column()
     public String city;
+    @Column()
     public String state;
+    @Column()
     public int zip;
+    @Column(columnDefinition = "boolean default false")
+    public Boolean admin = false;
 
-
-    public Boolean admin;
 
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
@@ -45,7 +48,8 @@ public class Users {
     public Users() {
     }
 
-    public Users(Integer id, String firstName, String lastName, String city, String state, int zip, String email, String username, String password, Boolean admin) {
+    public Users(Integer id, String firstName, String lastName, String city, String state, int zip, String email,
+            String username, String password, Boolean admin) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -137,7 +141,6 @@ public class Users {
     public Boolean getAdmin() {
         return this.admin;
     }
- 
 
     public void setAdmin(Boolean admin) {
         this.admin = admin;
@@ -191,38 +194,6 @@ public class Users {
     public Users admin(Boolean admin) {
         this.admin = admin;
         return this;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof Users)) {
-            return false;
-        }
-        Users users = (Users) o;
-        return Objects.equals(id, users.id) && Objects.equals(firstName, users.firstName) && Objects.equals(lastName, users.lastName) && Objects.equals(city, users.city) && Objects.equals(state, users.state) && zip == users.zip && Objects.equals(email, users.email) && Objects.equals(username, users.username) && Objects.equals(password, users.password) && Objects.equals(admin, users.admin);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, firstName, lastName, city, state, zip, email, username, password, admin);
-    }
-
-    @Override
-    public String toString() {
-        return "{" +
-            " id='" + getId() + "'" +
-            ", firstName='" + getFirstName() + "'" +
-            ", lastName='" + getLastName() + "'" +
-            ", city='" + getCity() + "'" +
-            ", state='" + getState() + "'" +
-            ", zip='" + getZip() + "'" +
-            ", email='" + getEmail() + "'" +
-            ", username='" + getUsername() + "'" +
-            ", password='" + getPassword() + "'" +
-            ", admin='" + isAdmin() + "'" +
-            "}";
     }
     
 }

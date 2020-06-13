@@ -3,9 +3,9 @@ import com.codebrew.models.Events;
 import com.codebrew.models.Users;
 //import com.codebrew.models.Events;
 //import com.codebrew.models.Users;
-import com.codebrew.repository.EventsRepository;
-import com.codebrew.repository.UsersRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+// import com.codebrew.repository.EventsRepository;
+// import com.codebrew.repository.UsersRepository;
+// import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,12 +16,13 @@ import org.springframework.context.annotation.ComponentScan;
 		"com.codebrew.models" })
 @SpringBootApplication
 public class Main implements CommandLineRunner  {
+	// ? I commented it out because it was deleted all the entries every time the application was run. 
 
-	@Autowired
-	private UsersRepository usersRepository;
+	// @Autowired
+	// private UsersRepository usersRepository;
 
-	@Autowired
-	private EventsRepository eventsRepository;
+	// @Autowired
+	// private EventsRepository eventsRepository;
 
 
 	public static void main(String[] args) {
@@ -30,12 +31,14 @@ public class Main implements CommandLineRunner  {
 
 	@Override
 	public void run(String... arg) throws Exception {
+		// ? I commented it out because it was deleted all the entries every time the
+		// application was run.
 		
-		//clean-up the tables
-		eventsRepository.deleteAllInBatch();
-		usersRepository.deleteAllInBatch();
+		// //clean-up the tables
+		// eventsRepository.deleteAllInBatch();
+		// usersRepository.deleteAllInBatch();
 
-		//=============================
+		//=====================================
 
 		 // Create a Post
 		 Events event = new Events();
