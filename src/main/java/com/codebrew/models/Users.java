@@ -1,6 +1,8 @@
 package com.codebrew.models;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -29,6 +31,15 @@ public class Users {
 
 
     public Boolean admin;
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                CascadeType.PERSIST,
+                CascadeType.MERGE
+            },
+            mappedBy = "users")
+    private Set<Events> Events = new HashSet<>();
+
 
 
     public Users() {
