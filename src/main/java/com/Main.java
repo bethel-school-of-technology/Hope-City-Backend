@@ -41,20 +41,20 @@ public class Main implements CommandLineRunner  {
 		//=====================================
 
 		 // Create a Post
-		 Events event = new Events();
+		// Events event = new Events();
 
  // Create two tags
- Users User1 = new Users();
- Users User2 = new Users();
+//  Users User1 = new Users();
+//  Users User2 = new Users();
 
 
  // Add  references in the post
- event.getEventName();
- event.getUsers();
+//  event.getEventName();
+//  event.getUsers();
 
  // Add post reference in the tags
- User1.getUsername();
- User2.getId();
+//  User1.getUsername();
+//  User2.getId();
 
 
 		

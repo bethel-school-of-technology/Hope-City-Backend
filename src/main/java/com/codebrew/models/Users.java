@@ -1,6 +1,8 @@
 package com.codebrew.models;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -8,8 +10,11 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
+
 public class Users {
 
+
+    private static final boolean True = false;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,13 +40,12 @@ public class Users {
     public Boolean admin = false;
 
 
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                CascadeType.PERSIST,
-                CascadeType.MERGE
-            },
-            mappedBy = "users")
-    private Set<Events> Events = new HashSet<>();
+    @OneToMany( 
+            mappedBy = "users",
+            cascade = CascadeType.ALL,
+            orphanRemoval = True
+            )
+    private List<UserEvents> Events = new ArrayList<>();
 
 
 

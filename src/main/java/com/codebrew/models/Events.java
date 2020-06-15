@@ -1,7 +1,9 @@
 package com.codebrew.models;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 // import java.util.Set;
 import java.util.Set;
@@ -15,8 +17,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 // import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
 
 
 
@@ -42,15 +46,13 @@ public class Events {
     // @ManyToMany(mappedBy = "")
     // Set<Users> userIdAttending;
 
-    @ManyToMany(fetch = FetchType.LAZY,
-    cascade = {
-        CascadeType.PERSIST,
-        CascadeType.MERGE
-    })
-@JoinTable(name = "USER_EVENTS",
-    joinColumns = { @JoinColumn(name = "EVENT_ID") },
-    inverseJoinColumns = { @JoinColumn(name = "USER_ID") })
-private Set<Users> users = new HashSet<>();
+    @OneToMany(
+        mappedBy = "events",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
+    )
+    public List<UserEvents> users = new ArrayList<>();
+ 
 
 
 
