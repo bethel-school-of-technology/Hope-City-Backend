@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+
 
 @Entity
 @Table(name = "USER_EVENTS")
@@ -22,9 +22,6 @@ public class Attendees {
 
     private static final Object Attendees = null;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "response_status")
-    private ResponseStatus responseStatus;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id")
