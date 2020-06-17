@@ -1,5 +1,8 @@
 package com.codebrew.models;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.*;
 
 
@@ -30,6 +33,17 @@ public class Users {
     public int zip;
     @Column(columnDefinition = "boolean default false")
     public Boolean admin = false;
+
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                CascadeType.PERSIST,
+                CascadeType.MERGE
+            },
+            mappedBy = "users")
+    private Set<Events> Events = new HashSet<>();
+
+
 
     public Users() {
     }

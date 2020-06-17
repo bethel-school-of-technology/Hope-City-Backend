@@ -1,17 +1,24 @@
 package com.codebrew.models;
 
 import java.sql.Date;
+import java.util.HashSet;
 import java.util.Objects;
 // import java.util.Set;
-
+import java.util.Set;
+import javax.persistence.JoinColumn;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 // import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+
 
 @Entity
 @Table(name = "events")
@@ -34,6 +41,16 @@ public class Events {
 //justrandom
     // @ManyToMany(mappedBy = "")
     // Set<Users> userIdAttending;
+
+    @ManyToMany(fetch = FetchType.LAZY,
+    cascade = {
+        CascadeType.PERSIST,
+        CascadeType.MERGE
+    })
+@JoinTable(name = "USER_EVENTS",
+    joinColumns = { @JoinColumn(name = "EVENT_ID") },
+    inverseJoinColumns = { @JoinColumn(name = "USER_ID") })
+private Set<Users> users = new HashSet<>();
 
 
 
@@ -196,6 +213,7 @@ public class Events {
         return this;
     }
 
+  
     @Override
     public boolean equals(Object o) {
         if (o == this)
@@ -233,5 +251,10 @@ public class Events {
             ", eventDay='" + getEventDay() + "'" +
             "}";
     }
+
+	public Object getUsers() {
+		return null;
+	}
+    
     
 }
