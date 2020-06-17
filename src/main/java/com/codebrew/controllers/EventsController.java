@@ -9,6 +9,7 @@ import com.codebrew.repository.EventsRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,6 +51,10 @@ public class EventsController {
     @PostMapping("/create")
 
     public ResponseEntity<Events> postEvents(@RequestBody Events events) {
+        // needs user and crap
+        System.out.println("userDetails events controller line 54");
+        //System.out.println("userDetails events controller line 55\n"+userDetails);
+        System.out.println(events.toString());
         Events createdEvents = eventsRepository.save(events);
         System.out.println("event created");
         return ResponseEntity.ok(createdEvents);
