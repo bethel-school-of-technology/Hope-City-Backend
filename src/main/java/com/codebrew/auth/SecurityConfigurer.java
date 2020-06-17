@@ -56,7 +56,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
         // accepted routes without authentication
         http.csrf().disable().authorizeRequests()
-                .antMatchers("/user", "/user/login", "/events/getall", "/events/get/**",
+                .antMatchers("/user", "/user/login", "/events/getall", "/events/create", "/events/update/{id}", "/events/delete/{id}", "/events/get/**",
                         "/image/get/**")
                 .permitAll()
                 // any other requests need authenticated with created token jwtRequestFilter;
