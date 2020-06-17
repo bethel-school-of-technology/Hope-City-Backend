@@ -31,7 +31,6 @@ public class Main implements CommandLineRunner  {
 
 	@Override
 	public void run(String... arg) throws Exception {
-		
 		// ? I commented it out because it was deleted all the entries every time the
 		// application was run.
 		
