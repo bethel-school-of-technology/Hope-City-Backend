@@ -8,9 +8,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+// import org.springframework.http.ResponseEntity;
+// import org.springframework.web.bind.annotation.PostMapping;
+// import org.springframework.web.bind.annotation.RequestBody;
 
 
 @Entity
@@ -20,24 +20,24 @@ public class Attendees {
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;
 
-    private static final Object Attendees = null;
+    // private static final Object Attendees = null;
 
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id")
-    private Users user;
+    public Users user;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "event_id")
-    private Events event;
+    public Events event;
 
-   
-
-    @PostMapping("/attending")
-
-    public ResponseEntity<Object> postAttendees(@RequestBody Attendees attendees) {
-        System.out.println("attending");
-        return ResponseEntity.ok(Attendees);
-
+    
+    public Long getId() {
+        return this.id;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+  
 }

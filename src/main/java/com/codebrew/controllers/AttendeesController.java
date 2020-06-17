@@ -1,8 +1,11 @@
 package com.codebrew.controllers;
 
+import java.util.List;
+
 //import java.util.List;
 
 import com.codebrew.models.Attendees;
+import com.codebrew.models.Events;
 //import com.codebrew.models.Events;
 import com.codebrew.repository.EventsRepository;
 import com.codebrew.repository.UserEventsRepo;
@@ -20,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/attendees")
+@RequestMapping(value = "/attendees")
 public class AttendeesController {
 
     @Autowired
@@ -28,27 +31,39 @@ public class AttendeesController {
     UsersRepository usersRepository;
     UserEventsRepo userEventsRepo;
 
+    // @GetMapping("/getallattendees")
+    // public List<Attendees> getAttendees() {
+    //     List<Attendees> foundAttendees = UserEventsRepo.findAll();
+    //     return foundAttendees;
+    // }
 
-
-
-    @GetMapping("/get/attendees")
+    @GetMapping("get/{id}")
     public ResponseEntity<Attendees> getAttendees(@PathVariable("id") Long id) {
         Attendees foundAttendee = UserEventsRepo.findAll(id);
 
         if (foundAttendee == null) {
             return ResponseEntity.notFound().header("Message", "Nothing found with that id").build();
         }
-        System.out.println("got event id");
+        System.out.println("got Attendee");
         return ResponseEntity.ok(foundAttendee);
     }
 
-    @PostMapping("/attending")
 
-    public ResponseEntity<Object> postAttendees(@RequestBody Attendees attendees) {
-        System.out.println("attending");
-        return ResponseEntity.ok(postAttendees());
+    @PostMapping("/attend")
 
+    public ResponseEntity<Attendees> postAttendees(@RequestBody Attendees attendees) {
+        Attendees createdAttendees = UserEventsRepo.saveAll(attendees);
+        System.out.println("attend");
+        return ResponseEntity.ok(createdAttendees);
     }
+
+    // @PostMapping("/attend")
+
+    // public ResponseEntity<Object> postAttendees(@RequestBody Attendees attendees) {
+    //     System.out.println("attending");
+    //     return ResponseEntity.ok(postAttendees());
+
+    // }
 
     public Object postAttendees() {
         return null;
