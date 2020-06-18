@@ -39,7 +39,7 @@ public class AttendeesController {
 
     @GetMapping("get/{id}")
     public ResponseEntity<Attendees> getAttendees(@PathVariable("id") Long id) {
-        Attendees foundAttendee = UserEventsRepo.findAll(id);
+        Attendees foundAttendee = userEventsRepo.findAll(id);
 
         if (foundAttendee == null) {
             return ResponseEntity.notFound().header("Message", "Nothing found with that id").build();
@@ -48,11 +48,10 @@ public class AttendeesController {
         return ResponseEntity.ok(foundAttendee);
     }
 
-
     @PostMapping("/attend")
 
     public ResponseEntity<Attendees> postAttendees(@RequestBody Attendees attendees) {
-        Attendees createdAttendees = UserEventsRepo.saveAll(attendees);
+        Attendees createdAttendees = userEventsRepo.saveAll(attendees);
         System.out.println("attend");
         return ResponseEntity.ok(createdAttendees);
     }
