@@ -32,7 +32,7 @@ public class AuthenticationResponse {
             // skipping password
 
             this.city = user.city;
-            this.city = user.city;
+            this.state = user.state;
             this.zip = ((Integer) (user.zip)).toString();
             this.admin = user.admin;
         } catch (NullPointerException er) {

@@ -22,7 +22,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-
 @EnableWebSecurity
 public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Autowired
@@ -55,7 +54,17 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         // accepted routes without authentication
-        http.csrf().disable().authorizeRequests().antMatchers("/user", "/user/login", "/events/getall", "/events/**")
+        http.csrf().disable().authorizeRequests()
+                .antMatchers(
+                    "/user", 
+                    "/user/login", 
+                    "/events/getall", 
+                    "/events/get/{id}", 
+                    "/events/**",
+                    "/events/delete/{id}", 
+                    "/events/update/**", 
+                    "/events/create"
+                )
 
                 .permitAll()
                 // any other requests need authenticated with created token jwtRequestFilter;
@@ -64,25 +73,31 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         // http.cors(this.corsConfigurationSource());
     }
-    
+
     // public void addCorsMappings(CorsRegistry reg) {
-    //     reg.addMapping("/**/**").allowedOrigins("http://localhost:4200").allowedMethods("POST", "PUT", "GET", "OPTIONS")
-    //             .allowedHeaders("Origin", "X-REquested-With", "Content-Type", "Accept", "Authorization");
+    // reg.addMapping("/**/**").allowedOrigins("http://localhost:4200").allowedMethods("POST",
+    // "PUT", "GET", "OPTIONS")
+    // .allowedHeaders("Origin", "X-REquested-With", "Content-Type", "Accept",
+    // "Authorization");
     // }
 
     // @Bean
     // CorsConfigurationSource corsConfigurationSource() {
-    //     CorsConfiguration corsConfig = new CorsConfiguration();
-    //     corsConfig.applyPermitDefaultValues();
-    //     corsConfig.setAllowedOrigins(Arrays.asList("/**"));
-    //     corsConfig.setAllowedHeaders(Arrays.asList("POST", "GET", "PUT", "OPTIONS", "DELETE"));
-    //     corsConfig.setAllowedMethods(
-    //             Arrays.asList("Authorization", "Accept", "Content-Type", "X-REquested-With", "Origin"));
-    //     corsConfig.setExposedHeaders(
-    //             Arrays.asList("Authorization", "Accept", "Content-Type", "X-REquested-With", "Origin"));
-    //     final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    //     source.registerCorsConfiguration("/**", corsConfig);
-    //     return source;
+    // CorsConfiguration corsConfig = new CorsConfiguration();
+    // corsConfig.applyPermitDefaultValues();
+    // corsConfig.setAllowedOrigins(Arrays.asList("/**"));
+    // corsConfig.setAllowedHeaders(Arrays.asList("POST", "GET", "PUT", "OPTIONS",
+    // "DELETE"));
+    // corsConfig.setAllowedMethods(
+    // Arrays.asList("Authorization", "Accept", "Content-Type", "X-REquested-With",
+    // "Origin"));
+    // corsConfig.setExposedHeaders(
+    // Arrays.asList("Authorization", "Accept", "Content-Type", "X-REquested-With",
+    // "Origin"));
+    // final UrlBasedCorsConfigurationSource source = new
+    // UrlBasedCorsConfigurationSource();
+    // source.registerCorsConfiguration("/**", corsConfig);
+    // return source;
     // }
 
     // public void addCorsMappings(CorsRegistry reg) {
