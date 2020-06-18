@@ -32,6 +32,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         final String authorizationHeader = request.getHeader("Authorization");
                 System.out.println("calling authFilter");
+                
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            chain.doFilter(request, response);
+            return;
+        }
+                
         String email = null;
         String jwt = null;
         System.out.println("setting null values to email and jwt");
@@ -60,12 +66,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             System.out.println("line 59 validating token: " + jwt + userDetails);
 
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                    userDetails, null, userDetails.getAuthorities());
+            userDetails, null, userDetails.getAuthorities());
             System.out.println("line 62 ");
             usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             response.addHeader(authorizationHeader, jwt);
             request.setAttribute("userDetails", userDetails);
+            // response.addHeader(authorizationHeader, jwt);
+            // request.setAttribute("userDetails", userDetails);
 
             System.out.println("line 67 " + authorizationHeader + jwt);
         }
