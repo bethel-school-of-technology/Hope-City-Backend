@@ -47,8 +47,7 @@ public class Main implements CommandLineRunner  {
  Users User1 = new Users();
  Users User2 = new Users();
 
-
- // Add  references in the post
+  // Add  references in the post
  event.getEventName();
  event.getUsers();
 

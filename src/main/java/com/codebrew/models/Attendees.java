@@ -24,11 +24,11 @@ public class Attendees {
 
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private Users user;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "event_id")
+    @JoinColumn(name = "event_id", referencedColumnName = "id")
     private Events event;
 
    
