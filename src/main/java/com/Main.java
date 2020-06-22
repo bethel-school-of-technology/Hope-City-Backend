@@ -1,5 +1,5 @@
 package com;
-import com.codebrew.models.Events;
+//import com.codebrew.models.Events;
 import com.codebrew.models.Users;
 //import com.codebrew.models.Events;
 //import com.codebrew.models.Users;
@@ -29,8 +29,8 @@ public class Main implements CommandLineRunner  {
 		SpringApplication.run(Main.class, args);
 	}
 
-	@Override
-	public void run(String... arg) throws Exception {
+//	@Override
+//	public void run(String... arg) throws Exception {
 		// ? I commented it out because it was deleted all the entries every time the
 		// application was run.
 		
@@ -41,19 +41,25 @@ public class Main implements CommandLineRunner  {
 		//=====================================
 
 		 // Create a Post
-		 Events event = new Events(null, null, null, null, null, null, null, 0, null, null, null);
+	//	 Events event = new Events(null, null, null, null, null, null, null, 0, null, null, null);
 
  // Create two tags
  Users User1 = new Users();
  Users User2 = new Users();
 
+	@Override
+	public void run(String... args) throws Exception {
+		// TODO Auto-generated method stub
+
+	}
+
   // Add  references in the post
- event.getEventName();
- event.getUsers();
+// event.getEventName();
+// event.getUsers();
 
  // Add post reference in the tags
- User1.getUsername();
- User2.getId();
+ //User1.getUsername();
+ //User2.getId();
 
 
 		
@@ -62,4 +68,4 @@ public class Main implements CommandLineRunner  {
 		
 	}
 
-}
+

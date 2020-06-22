@@ -20,7 +20,7 @@ public class Attendees {
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;
 
-    private static final Object Attendees = null;
+    //private static final Object Attendees = null;
 
 
     @ManyToOne(optional = false)
@@ -37,7 +37,7 @@ public class Attendees {
 
     public ResponseEntity<Object> postAttendees(@RequestBody Attendees attendees) {
         System.out.println("attending");
-        return ResponseEntity.ok(Attendees);
+        return ResponseEntity.ok(attendees);
 
     }
 }
