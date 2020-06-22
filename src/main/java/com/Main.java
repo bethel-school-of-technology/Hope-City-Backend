@@ -41,7 +41,7 @@ public class Main implements CommandLineRunner  {
 		//=====================================
 
 		 // Create a Post
-		 Events event = new Events();
+		 Events event = new Events(null, null, null, null, null, null, null, 0, null, null, null);
 
  // Create two tags
  Users User1 = new Users();

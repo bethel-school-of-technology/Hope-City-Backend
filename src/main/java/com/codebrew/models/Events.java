@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.Objects;
 // import java.util.Set;
 import java.util.Set;
+//import java.util.stream.Collectors;
+//import java.util.stream.Stream;
+
 import javax.persistence.JoinColumn;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -48,14 +51,11 @@ public class Events {
         CascadeType.MERGE
     })
 @JoinTable(name = "USER_EVENTS",
-    joinColumns = { @JoinColumn(name = "EVENT_ID") },
-    inverseJoinColumns = { @JoinColumn(name = "USER_ID") })
+    joinColumns = { @JoinColumn(name = "EVENT_ID", referencedColumnName = "id"), },
+    inverseJoinColumns = { @JoinColumn(name = "USER_ID", referencedColumnName = "id") })
 private Set<Users> users = new HashSet<>();
 
 
-
-    public Events() {
-    }
 
     public Events(Long id, String hostName, String eventName, String eventInfo, String eventAddress, String eventCity, String eventState, int eventZip, String eventStartTime, String eventEndTime, Date eventDay) {
         this.id = id;
