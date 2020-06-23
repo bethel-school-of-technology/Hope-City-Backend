@@ -50,14 +50,20 @@ public class AttendeesController {
     //     return ResponseEntity.ok(foundAttendee);
     // }
  
-    @PostMapping("/attending")
+    // @PostMapping("/attending")
 
-    public ResponseEntity<Object> postAttendees(@RequestBody Attendees attendees) {
+    // public ResponseEntity<Object> postAttendees(@RequestBody Attendees attendees) {
+    //     System.out.println("attending");
+    //     return ResponseEntity.ok(postAttendees());
+
+    @PostMapping("/create")
+
+    public ResponseEntity<Attendees> postAttendees(@RequestBody Attendees attendees) {
+        Attendees createdAttendees = eventsRepository.save(attendees);
         System.out.println("attending");
-        return ResponseEntity.ok(postAttendees());
-
+        return ResponseEntity.ok(createdAttendees);
     }
-
+ 
     public Object postAttendees() {
         return null;
     }
