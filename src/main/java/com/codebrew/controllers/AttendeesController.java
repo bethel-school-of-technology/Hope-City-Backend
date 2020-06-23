@@ -1,5 +1,7 @@
 package com.codebrew.controllers;
 
+import java.util.List;
+
 //import java.util.List;
 
 import com.codebrew.models.Attendees;
@@ -29,19 +31,25 @@ public class AttendeesController {
     UserEventsRepo userEventsRepo;
 
 
-
-
-    @GetMapping("/get/attendees")
-    public ResponseEntity<Attendees> getAttendees(@PathVariable("id") Long id) {
-        Attendees foundAttendee = UserEventsRepo.findAll(id);
-
-        if (foundAttendee == null) {
-            return ResponseEntity.notFound().header("Message", "Nothing found with that id").build();
-        }
-        System.out.println("got event id");
-        return ResponseEntity.ok(foundAttendee);
+    @GetMapping("/getall")
+    public List<Attendees> getAttendees() {
+        List<Attendees> foundAttendees = UserEventsRepo.findAllAttending();
+        return foundAttendees;
     }
 
+
+
+    // @GetMapping("/get/attendees")
+    // public ResponseEntity<Attendees> getAttendees(@PathVariable("id") Long id) {
+    //     Attendees foundAttendee = UserEventsRepo.findAll(id);
+
+    //     if (foundAttendee == null) {
+    //         return ResponseEntity.notFound().header("Message", "Nothing found with that id").build();
+    //     }
+    //     System.out.println("got event id");
+    //     return ResponseEntity.ok(foundAttendee);
+    // }
+ 
     @PostMapping("/attending")
 
     public ResponseEntity<Object> postAttendees(@RequestBody Attendees attendees) {

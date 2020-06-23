@@ -40,4 +40,33 @@ public class Attendees {
         return ResponseEntity.ok(attendees);
 
     }
+
+    /**
+     * @return Users return the user
+     */
+    public Users getUser() {
+        return user;
+    }
+
+    /**
+     * @param user the user to set
+     */
+    public void setUser(Users user) {
+        this.user = user;
+    }
+
+    /**
+     * @return Events return the event
+     */
+    public Events getEvent() {
+        return event;
+    }
+
+    /**
+     * @param event the event to set
+     */
+    public void setEvent(Events event) {
+        this.event = event;
+    }
+
 }
