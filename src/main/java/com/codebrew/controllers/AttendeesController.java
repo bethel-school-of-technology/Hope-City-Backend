@@ -1,5 +1,7 @@
 package com.codebrew.controllers;
 
+import java.util.List;
+
 //import java.util.List;
 
 import com.codebrew.models.Attendees;
@@ -28,6 +30,11 @@ public class AttendeesController {
     UsersRepository usersRepository;
     UserEventsRepo userEventsRepo;
 
+    // @GetMapping("/getall")
+    // public List<Attendees> getEvents() {
+    //     List<Attendees> foundAttendees = userEventsRepo.findAll();
+    //     return foundAttendees;
+    // }
 
 
 
