@@ -51,7 +51,7 @@ public class UsersController {
         } else {
             
             System.out.println("not able to register new user");
-            return ResponseEntity.status(400).body(null);
+            return ResponseEntity.status(400).body("not valid signup info");
         }
     }
 
@@ -63,7 +63,7 @@ public class UsersController {
     // private AuthenticationManager authenticationManager;
     // LOGIN WORKING with Granted Authorities & Token
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public ResponseEntity<AuthenticationResponse> login(@RequestBody Users user) throws Exception {
+    public ResponseEntity<Object> login(@RequestBody Users user) throws Exception {
         // takes in email and password from JSON.
         try {
             new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
@@ -72,7 +72,8 @@ public class UsersController {
 
             System.out.println("bad credentials");
 
-            throw new Exception("Incorrect email or password", e);
+            // throw new Exception("Incorrect email or password", e);
+            return ResponseEntity.status(403).body("Incorrect email or password");
         }
         System.out.println("valid credentials received");
 
@@ -90,7 +91,7 @@ public class UsersController {
             return ResponseEntity.ok(new AuthenticationResponse(jwt, usersRepository.findByEmail(user.email)));
         } else {
             System.out.println("Invalid email or password, unauthorized");
-            return ResponseEntity.status(403).body(null);
+            return ResponseEntity.status(403).body("Invalid email or password, unauthorized");
         }
     }
     // // LOGIN WORKING as Users. returns full users information.
