@@ -4,6 +4,8 @@ import java.util.List;
 
 //import java.util.List;
 
+//import java.util.List;
+
 import com.codebrew.models.Attendees;
 //import com.codebrew.models.Events;
 import com.codebrew.repository.EventsRepository;
@@ -26,8 +28,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class AttendeesController {
 
     @Autowired
-    EventsRepository eventsRepository;
-    UsersRepository usersRepository;
+    // EventsRepository eventsRepository;
+    // UsersRepository usersRepository;
     UserEventsRepo userEventsRepo;
 
     // @GetMapping("/getall")
@@ -37,17 +39,22 @@ public class AttendeesController {
     // }
 
 
+    @GetMapping("/getall")
+    private List<Attendees> getAttendees() {
+        List<Attendees> foundAttendees = UserEventsRepo.findAllAttendees();
+        return foundAttendees;
+    } 
 
-    @GetMapping("/get/attendees")
-    public ResponseEntity<Attendees> getAttendees(@PathVariable("id") Long id) {
-        Attendees foundAttendee = UserEventsRepo.findAll(id);
+    // @GetMapping("/get/attendees")
+    // public ResponseEntity<Attendees> getAttendees(@PathVariable("id") Long id) {
+    //     Attendees foundAttendee = UserEventsRepo.findAll(id);
 
-        if (foundAttendee == null) {
-            return ResponseEntity.notFound().header("Message", "Nothing found with that id").build();
-        }
-        System.out.println("got event id");
-        return ResponseEntity.ok(foundAttendee);
-    }
+    //     if (foundAttendee == null) {
+    //         return ResponseEntity.notFound().header("Message", "Nothing found with that id").build();
+    //     }
+    //     System.out.println("got event id");
+    //     return ResponseEntity.ok(foundAttendee);
+    // }
 
     @PostMapping("/attending")
 
