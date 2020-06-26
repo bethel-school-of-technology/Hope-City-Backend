@@ -8,15 +8,15 @@ import java.util.List;
 
 import com.codebrew.models.Attendees;
 //import com.codebrew.models.Events;
-import com.codebrew.repository.EventsRepository;
+//import com.codebrew.repository.EventsRepository;
 import com.codebrew.repository.UserEventsRepo;
-import com.codebrew.repository.UsersRepository;
+//import com.codebrew.repository.UsersRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+//import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
