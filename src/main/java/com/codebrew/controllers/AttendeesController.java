@@ -7,10 +7,12 @@ import java.util.List;
 //import java.util.List;
 
 import com.codebrew.models.Attendees;
+import com.codebrew.repository.EventsRepository;
 //import com.codebrew.models.Events;
 //import com.codebrew.repository.EventsRepository;
 import com.codebrew.repository.UserEventsRepo;
 //import com.codebrew.repository.UsersRepository;
+import com.codebrew.repository.UsersRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,22 +30,26 @@ import org.springframework.web.bind.annotation.RestController;
 public class AttendeesController {
 
     @Autowired
-    // EventsRepository eventsRepository;
-    // UsersRepository usersRepository;
+     EventsRepository eventsRepository;
+     UsersRepository usersRepository;
     UserEventsRepo userEventsRepo;
 
-    // @GetMapping("/getall")
-    // public List<Attendees> getEvents() {
-    //     List<Attendees> foundAttendees = userEventsRepo.findAll();
-    //     return foundAttendees;
-    // }
+   
 
 
     @GetMapping("/getall")
     private List<Attendees> getAttendees() {
-        List<Attendees> foundAttendees = UserEventsRepo.findAllAttendees();
+        List<Attendees> foundAttendees = userEventsRepo.findAll();
         return foundAttendees;
     } 
+
+    @PostMapping("/create")
+
+    public ResponseEntity<Attendees> postEvents(@RequestBody Attendees attendees) {
+        Attendees createdEvents = userEventsRepo.save(attendees);
+        System.out.println("event created");
+        return ResponseEntity.ok(createdEvents);
+    }
 
     // @GetMapping("/get/attendees")
     // public ResponseEntity<Attendees> getAttendees(@PathVariable("id") Long id) {
@@ -56,16 +62,36 @@ public class AttendeesController {
     //     return ResponseEntity.ok(foundAttendee);
     // }
 
-    @PostMapping("/attending")
+     // @GetMapping("/getall")
+    // public List<Attendees> getEvents() {
+    //     List<Attendees> foundAttendees = userEventsRepo.findAll();
+    //     return foundAttendees;
+    // }
+     // @GetMapping("/getall")
+    // public List<Attendees> getEvents() {
+    //     List<Attendees> foundAttendees = userEventsRepo.findAll();
+    //     return foundAttendees;
+    // }
 
-    public ResponseEntity<Object> postAttendees(@RequestBody Attendees attendees) {
-        System.out.println("attending");
-        return ResponseEntity.ok(postAttendees());
 
-    }
+    // @PostMapping("/create")
 
-    public Object postAttendees() {
-        return null;
-    }
+    // public ResponseEntity<Attendees> postEvents(@RequestBody Attendees attendees) {
+    //     Attendees createdEvents = userEventsRepo.save(attendees);
+    //     System.out.println("event created");
+    //     return ResponseEntity.ok(createdEvents);
+    // }
+
+    // @PostMapping("/attending")
+
+    // public ResponseEntity<Object> postAttendees(@RequestBody Attendees attendees) {
+    //     System.out.println("attending");
+    //     return ResponseEntity.ok(postAttendees());
+
+    // }
+
+    // public Object postAttendees() {
+    //     return null;
+    // }
 
 }

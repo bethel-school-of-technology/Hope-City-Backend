@@ -36,6 +36,12 @@ public class Attendees {
     public Events event;
     private int event_id;
 
+    public Attendees(Long id, int user_id, int event_id) {
+        this.id = id;
+        this.user_id = user_id;
+        this.event_id = event_id;
+    }
+
    
 
     // @PostMapping("/attending")

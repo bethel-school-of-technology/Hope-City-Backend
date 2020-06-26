@@ -1,6 +1,6 @@
 package com.codebrew.repository;
 
-import java.util.List;
+//import java.util.List;
 
 import com.codebrew.models.Attendees;
 //import com.codebrew.models.Events;
@@ -15,9 +15,9 @@ public interface UserEventsRepo extends JpaRepository<Attendees, Long> {
 	// 	return null;
 	// }
 
-	static List<Attendees> findAllAttendees(){
-		return null;
-	}
+	// static List<Attendees> findAllAttendees(){
+	// 	return null;
+	// }
 
 	// static Attendees findAll(Long id) {
 	// 	return null;
