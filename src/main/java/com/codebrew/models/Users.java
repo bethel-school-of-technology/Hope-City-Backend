@@ -41,7 +41,7 @@ public class Users {
                 CascadeType.MERGE
             },
             mappedBy = "users")
-    private Set<Events> Events = new HashSet<>();
+    private Set<Events> events = new HashSet<>();
 
 
 
