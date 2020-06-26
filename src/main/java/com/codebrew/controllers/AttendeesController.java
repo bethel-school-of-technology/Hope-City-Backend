@@ -30,8 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AttendeesController {
 
     @Autowired
-     EventsRepository eventsRepository;
-     UsersRepository usersRepository;
+    
     UserEventsRepo userEventsRepo;
 
    
@@ -43,13 +42,15 @@ public class AttendeesController {
         return foundAttendees;
     } 
 
-    @PostMapping("/create")
+    @PostMapping("/attending")
 
-    public ResponseEntity<Attendees> postEvents(@RequestBody Attendees attendees) {
-        Attendees createdEvents = userEventsRepo.save(attendees);
-        System.out.println("event created");
-        return ResponseEntity.ok(createdEvents);
+    public ResponseEntity<Attendees> postAttendees(@RequestBody Attendees attendees) {
+        Attendees createdAttendees = userEventsRepo.save(attendees);
+        System.out.println("attending");
+        return ResponseEntity.ok(createdAttendees);
+
     }
+
 
     // @GetMapping("/get/attendees")
     // public ResponseEntity<Attendees> getAttendees(@PathVariable("id") Long id) {
