@@ -18,6 +18,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 
+
+// once per request filter that runs for each request from the front end.  checks the header for the authorization header, checks for the "Bearer " string with substring, then extracts email, and security context holder, if all that checks out then a usernamepasswordauthentication token is administered and approval is granted for access. 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
@@ -27,7 +29,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Autowired
     private JwtUtil jwtUtil;
 
-    @Override//having trouble with events/create method post
+    @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
         final String authorizationHeader = request.getHeader("Authorization");
@@ -37,7 +39,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             chain.doFilter(request, response);
             return;
         }
-                
         String email = null;
         String jwt = null;
         System.out.println("setting null values to email and jwt");
@@ -51,7 +52,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             System.out.println("checking header for proper substring");
             email = jwtUtil.extractEmail(jwt);
 
-            System.out.println("line 45, extracted email from jwt " + email);
+            System.out.println("line 53, extracted email from jwt " + email);
         }
     System.out.println("line 47");
     if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -59,26 +60,24 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         UserDetails userDetails = this.userService.loadUserByUsername(email);
 
-        System.out.println("line 56, user details: " + email );
+        System.out.println("line 61, user details: " + email );
 
         if (userDetails != null && jwtUtil.validateToken(jwt, userDetails)) {
 
-            System.out.println("line 59 validating token: " + jwt + userDetails);
+            System.out.println("line 65 validating token: " + jwt + userDetails);
 
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
             userDetails, null, userDetails.getAuthorities());
-            System.out.println("line 62 ");
+            System.out.println("line 69 ");
             usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             response.addHeader(authorizationHeader, jwt);
             request.setAttribute("userDetails", userDetails);
-            // response.addHeader(authorizationHeader, jwt);
-            // request.setAttribute("userDetails", userDetails);
-
+           
             System.out.println("line 67 " + authorizationHeader + jwt);
         }
     }
-        System.out.println("line 70");
+        System.out.println("line 78");
         chain.doFilter(request, response);
 
     }

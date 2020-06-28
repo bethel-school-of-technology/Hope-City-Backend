@@ -3,7 +3,6 @@ package com.codebrew.models;
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.Objects;
-// import java.util.Set;
 import java.util.Set;
 import javax.persistence.JoinColumn;
 import javax.persistence.CascadeType;
@@ -15,7 +14,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-// import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 
@@ -26,7 +24,7 @@ public class Events {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;
-//dude
+
     @Column(nullable = false, unique = false)
     public String hostName;
     public String eventName;
@@ -38,9 +36,6 @@ public class Events {
     public String eventStartTime;
     public String eventEndTime;
     public Date eventDay;
-//justrandom
-    // @ManyToMany(mappedBy = "")
-    // Set<Users> userIdAttending;
 
     @ManyToMany(fetch = FetchType.LAZY,
     cascade = {

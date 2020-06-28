@@ -25,6 +25,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.*;
 
+
+// controller for users, includes endpoints for registration, login, getone, getall, delete, update, updatepassword, & update admin status.
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/user")
@@ -42,10 +44,9 @@ public class UsersController {
     // ENCODING PASSWORD WORKING
     @PostMapping()
     public ResponseEntity<?> register(@RequestBody Users newUser) throws DuplicateMappingException {
-
+// takes in Users object, email, password entered and saves them along with other entered details into database. Password is encoded through the userService.Save() defined in the MySQLUserDetailsService that includes the password encoder. 
         if (usersRepository.findByEmail(newUser.email) == null) {
             userService.Save(newUser);
-            // I removed the Token Generation from the registration endpoint.
             System.out.println("new user created" + newUser);
             return ResponseEntity.ok(usersRepository.findByEmail(newUser.email));
         } else {
@@ -59,8 +60,7 @@ public class UsersController {
     @Autowired
     private JwtUtil jwtTokenUtil;
 
-    // @Autowired
-    // private AuthenticationManager authenticationManager;
+    
     // LOGIN WORKING with Granted Authorities & Token
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public ResponseEntity<Object> login(@RequestBody Users user) throws Exception {
@@ -80,33 +80,22 @@ public class UsersController {
         UserDetails temp = userService.loadUserByUsername(user.email);
 
         System.out.println("user : " + user + "found");
-
+            // takes entered password and compares it to the hashed password of the user found by the entered email. 
         if (BCrypt.checkpw(user.password, temp.getPassword()) == true) {
 
             System.out.println("password authenticated");
 
             System.out.println("user Info: " + temp);
             
+            // generates token if login is successful. 
             final String jwt = jwtTokenUtil.generateToken(user);
+            // generates token and sets the header for authorization. 
             return ResponseEntity.ok(new AuthenticationResponse(jwt, usersRepository.findByEmail(user.email)));
         } else {
             System.out.println("Invalid email or password, unauthorized");
             return ResponseEntity.status(403).body("Invalid email or password, unauthorized");
         }
     }
-    // // LOGIN WORKING as Users. returns full users information.
-    // @PostMapping("/login")
-    // public ResponseEntity<Users> login(@RequestBody Users user) throws
-    // UsernameNotFoundException {
-    // Users temp = usersRepository.findByEmail(user.email);
-    // System.out.println("user : " + user + "found");
-    // if (BCrypt.checkpw(user.password, temp.password) == true) {
-    // System.out.println("user Info: " + temp);
-    // return ResponseEntity.status(200).body(temp);
-    // } else {
-    // return ResponseEntity.status(403).body(null);
-    // }
-    // }
 
     /////////////////////////////////////////////////////////////////
 
@@ -144,11 +133,10 @@ public class UsersController {
             user.setZip(userDetails.getZip());
             user.setUsername(userDetails.getUsername());
             user.setEmail(userDetails.getEmail());
-            user.setAdmin(userDetails.getAdmin());
             final Users updatedUser = idRepo.save(user);
             System.out.println("updated " + updatedUser.getUsername());
             return ResponseEntity.ok(updatedUser);
-
+// sets new attributes for each var. in the model, excluding the password and admin.  those are done with separate endpoints. 
         }
 
     }

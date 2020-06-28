@@ -11,6 +11,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
+// built to attempt to fix cors issue.  Currently set to accept all cross origin methods, does need updated for deploy, however in this local testing branch, the 4200 local host is accessible. 
 public class CorsFilter implements Filter {
 
     @Override
@@ -29,10 +31,7 @@ public class CorsFilter implements Filter {
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "*");
         response.setHeader("Access-Control-Allow-Headers", "*");
-        // response.setHeader("Access-Control-Allow-Credentials", "*");
         response.setHeader("Access-Control-Max-Age", "180");
-        // response.setHeader("Access-Control-Allow-Headers","Content-Type,
-        // Access-Control-Allow-Headers, Authorization, X-Requested-With");
         filterChain.doFilter(servletRequest, servletResponse);
     }
 

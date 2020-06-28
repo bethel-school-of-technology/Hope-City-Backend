@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+//  <basic setup built by Jake, modified by Wesley>
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping(path = "image")
@@ -30,7 +31,8 @@ public class ImageUploadController {
     @Autowired
     ImageRepository imageRepository;
 
-    // UPLOAD IMAGE
+    // uploads image through multipart file upload, compressed the image and saves it to the image repository.
+    // UPLOAD IMAGE<working>
     @PostMapping("/upload")
     public BodyBuilder uploadImage(@RequestParam("imageFile") MultipartFile file) throws IOException {
         System.out.println("Original Image Byte Size - " + file.getBytes().length);
@@ -42,6 +44,7 @@ public class ImageUploadController {
         return ResponseEntity.status(HttpStatus.OK);
     }
 
+    // unable to retrieve image in database.
     // GET IMAGE
     @GetMapping(path = { "/get/{imageName}" })
     public ImageModel getImage(@PathVariable("imageName") String imageName) throws IOException {
@@ -52,6 +55,7 @@ public class ImageUploadController {
 
     }
 
+    // compressed images
 
     public static byte[] compressBytes(byte[] data) {
         Deflater deflater = new Deflater();
@@ -71,6 +75,7 @@ public class ImageUploadController {
         return outputStream.toByteArray();
     }
 
+    // decompresses images
     public static byte[] decompressBytes(byte[] data) {
 
         Inflater inflater = new Inflater();

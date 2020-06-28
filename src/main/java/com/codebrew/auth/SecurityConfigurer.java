@@ -29,7 +29,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-
+// used BCrypt password encoding, easy pass-in and built in methods for auth. such as Bcrypt.CheckPassword()
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -51,7 +51,8 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
         http.csrf().disable().authorizeRequests()
                 .antMatchers(
                     "/user", 
-                    "/user/login", 
+                        "/user/login",
+                    // events needed to be added to the list of permit all requests due to error on front-end. The routes with token auth ran fine in postman with passing in the token, however on the front end, it didn't appear to actually be passing the token along with each component load, 
                     "/events/getall", 
                     "/events/get/{id}", 
                     "/events/**",
@@ -65,60 +66,8 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated().and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-        // http.cors(this.corsConfigurationSource());
     }
 
-    // public void addCorsMappings(CorsRegistry reg) {
-    // reg.addMapping("/**/**").allowedOrigins("http://localhost:4200").allowedMethods("POST",
-    // "PUT", "GET", "OPTIONS")
-    // .allowedHeaders("Origin", "X-REquested-With", "Content-Type", "Accept",
-    // "Authorization");
-    // }
-
-    // @Bean
-    // CorsConfigurationSource corsConfigurationSource() {
-    // CorsConfiguration corsConfig = new CorsConfiguration();
-    // corsConfig.applyPermitDefaultValues();
-    // corsConfig.setAllowedOrigins(Arrays.asList("/**"));
-    // corsConfig.setAllowedHeaders(Arrays.asList("POST", "GET", "PUT", "OPTIONS",
-    // "DELETE"));
-    // corsConfig.setAllowedMethods(
-    // Arrays.asList("Authorization", "Accept", "Content-Type", "X-REquested-With",
-    // "Origin"));
-    // corsConfig.setExposedHeaders(
-    // Arrays.asList("Authorization", "Accept", "Content-Type", "X-REquested-With",
-    // "Origin"));
-    // final UrlBasedCorsConfigurationSource source = new
-    // UrlBasedCorsConfigurationSource();
-    // source.registerCorsConfiguration("/**", corsConfig);
-    // return source;
-    // }
-
-    // public void addCorsMappings(CorsRegistry reg) {
-    // reg.addMapping("/**/**").allowedOrigins("http://localhost:4200").allowedMethods("POST",
-    // "PUT", "GET", "OPTIONS")
-    // .allowedHeaders("Origin", "X-REquested-With", "Content-Type", "Accept",
-    // "Authorization");
-    // }
-
-    // // @Bean
-    // CorsConfigurationSource corsConfigurationSource() {
-    // CorsConfiguration corsConfig = new CorsConfiguration();
-    // corsConfig.applyPermitDefaultValues();
-    // corsConfig.setAllowedOrigins(Arrays.asList("/**"));
-    // corsConfig.setAllowedHeaders(Arrays.asList("POST", "GET", "PUT", "OPTIONS",
-    // "DELETE"));
-    // corsConfig.setAllowedMethods(
-    // Arrays.asList("Authorization", "Accept", "Content-Type", "X-REquested-With",
-    // "Origin"));
-    // corsConfig.setExposedHeaders(
-    // Arrays.asList("Authorization", "Accept", "Content-Type", "X-REquested-With",
-    // "Origin"));
-    // final UrlBasedCorsConfigurationSource source = new
-    // UrlBasedCorsConfigurationSource();
-    // source.registerCorsConfiguration("/**", corsConfig);
-    // return source;
-    // }
 
     @Bean
     CorsFilter corsFilter() {

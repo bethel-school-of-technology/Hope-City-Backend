@@ -13,13 +13,13 @@ public class ImageModel {
     public ImageModel() {
         super();
     }
-
+// basic constructor for the image.
     public ImageModel(String name, String type, byte[] picByte) {
         this.name = name;
         this.type = type;
         this.picByte = picByte;
     }
-
+// setting ID as primary, and specifying column names in table. 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

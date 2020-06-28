@@ -1,5 +1,7 @@
 package com.codebrew.auth;
 
+
+// constants set for use throughout the application, also used in order to have all accessible routes in one place for postman testing. 
 public class AuthConstants {
     public static final String SECRET = "SuperSecretKey";
     public static final long EXPIRATION_TIME = 432_000_000;

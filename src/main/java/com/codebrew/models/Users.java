@@ -14,7 +14,7 @@ public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Integer id;
-
+// specifying column attributes for MYSQl
     @Column(nullable = true, unique = false)
     public String firstName;
     @Column(nullable = true, unique = false)
@@ -34,7 +34,7 @@ public class Users {
     @Column(columnDefinition = "boolean default false")
     public Boolean admin = false;
 
-
+// for attendee table. 
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                 CascadeType.PERSIST,
