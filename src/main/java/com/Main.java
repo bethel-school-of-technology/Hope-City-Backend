@@ -12,7 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 public class Main implements CommandLineRunner  {
 
-
+//  # backend deployed to heroku, front-end deployed to netlify ->  https://hopecity.netlify.app
 
 	public static void main(String[] args) {
 		SpringApplication.run(Main.class, args);

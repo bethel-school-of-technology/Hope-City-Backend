@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+
+// primarily taken from course content in backendFoundations, modification was necessary. 
 @Service
 public class MySQLUserDetailsService implements UserDetailsService {
 
@@ -21,6 +23,8 @@ public class MySQLUserDetailsService implements UserDetailsService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+
+    // loads userDetails by username(or email in our case)
     @Override
     public UserDetails loadUserByUsername(String email) {
         Users user = usersRepository.findByEmail(email);
@@ -32,7 +36,7 @@ public class MySQLUserDetailsService implements UserDetailsService {
     }
 
 
-
+// saves new UserDetails (spring built in model) -> type Users, and encodes password with BCrypt on save. 
     public UserDetails Save(Users newUser) {
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
         Users savedUser = usersRepository.save(newUser);
