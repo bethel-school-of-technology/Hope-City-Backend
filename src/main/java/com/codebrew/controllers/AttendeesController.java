@@ -7,12 +7,12 @@ import java.util.List;
 //import java.util.List;
 
 import com.codebrew.models.Attendees;
-import com.codebrew.repository.EventsRepository;
+// import com.codebrew.repository.EventsRepository;
 //import com.codebrew.models.Events;
 //import com.codebrew.repository.EventsRepository;
 import com.codebrew.repository.UserEventsRepo;
 //import com.codebrew.repository.UsersRepository;
-import com.codebrew.repository.UsersRepository;
+// import com.codebrew.repository.UsersRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
