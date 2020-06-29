@@ -42,10 +42,10 @@ public class Events {
         CascadeType.PERSIST,
         CascadeType.MERGE
     })
-@JoinTable(name = "USER_EVENTS",
-    joinColumns = { @JoinColumn(name = "EVENT_ID") },
-    inverseJoinColumns = { @JoinColumn(name = "USER_ID") })
-private Set<Users> users = new HashSet<>();
+@JoinTable(name = "user_events",
+    joinColumns = { @JoinColumn(name = "event_id", referencedColumnName = "id"), },
+    inverseJoinColumns = { @JoinColumn(name = "user_id", referencedColumnName = "id") })
+public Set<Users> users = new HashSet<>();
 
 
 
