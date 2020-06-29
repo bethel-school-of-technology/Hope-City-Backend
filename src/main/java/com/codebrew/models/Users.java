@@ -35,15 +35,13 @@ public class Users {
     public Boolean admin = false;
 
 // for attendee table. 
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                CascadeType.PERSIST,
-                CascadeType.MERGE
-            },
-            mappedBy = "users")
-    private Set<Events> Events = new HashSet<>();
-
-
+@ManyToMany(fetch = FetchType.LAZY,
+cascade = {
+    CascadeType.PERSIST,
+    CascadeType.MERGE
+},
+mappedBy = "users")
+private Set<Events> events = new HashSet<>();
 
     public Users() {
     }
