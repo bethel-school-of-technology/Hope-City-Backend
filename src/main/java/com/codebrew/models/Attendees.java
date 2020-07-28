@@ -16,7 +16,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "USER_EVENTS") 
-
+//yes
 public class Attendees {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
